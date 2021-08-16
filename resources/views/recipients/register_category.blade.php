@@ -12,21 +12,17 @@
 
 <div class="container">
   <h2>Đăng kí danh mục sản phẩm muốn nhận</h2>   
-  <form name="register_category" action="{{ url("/product/store")}}" method="post">
+  <form name="register_category" action="{{ url("/recipients/save_register_category")}}" method="post">
     @csrf
+    @foreach ($categories as $category)
     <div class="form-check">
-    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+    <input class="form-check-input" type="checkbox" value="{{ $category->id }}" name="{{ $category->id }}" id="defaultCheck1">
     <label class="form-check-label" for="defaultCheck1">
-      Default checkbox
+      {{ $category->category_name }}
     </label>
     </div>
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" disabled>
-      <label class="form-check-label" for="defaultCheck2">
-        Disabled checkbox
-      </label>
-    </div>
-    <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
+    @endforeach
+    <button type="submit" class="btn btn-primary">Đăng kí danh mục sản phẩm nhận</button>
   </form>
 </div>
 </body>

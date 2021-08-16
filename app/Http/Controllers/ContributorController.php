@@ -7,6 +7,7 @@ use App\Models\ContributorModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\ObjectsModel;
+use App\Models\CategoryModel;
 
 class ContributorController extends Controller
 {
@@ -106,12 +107,13 @@ class ContributorController extends Controller
     return view("recipients.home");
   }
   public function registerCategory() {
-    $categorys = CategoryModel::all();
-    $data["categorys"] = $categorys; 
+    $categories = CategoryModel::all();
+    $data["categories"] = $categories; 
     return view('recipients.register_category', $data);
   }
 
   public function saveRegisterCategory() {
-
+    dd($_POST);
+    die;
   }
 }
