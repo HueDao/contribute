@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ContributorModel extends Model
+class ObjectsModel extends Model
 {
-  protected $table = 'contributors';
-  protected $primaryKey = 'id';
+    protected $table = 'objects';
+    protected $primaryKey = 'id';
 }

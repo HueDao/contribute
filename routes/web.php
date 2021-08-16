@@ -52,7 +52,11 @@ Route::post('/contributor/store', [ContributorController::class, 'store']);
 Route::post('/contributor/update/{id}', [ContributorController::class, 'update']);
 Route::post('/contributor/destroy/{id}', [ContributorController::class, 'destroy']);
 
-Route::get('/contributor/infor', [ContributorController::class], 'infor');
+Route::get('/contributor/infor', [ContributorController::class, 'infor']);
+
+Route::get('/recipients/home', [ContributorController::class, 'registerHome']);
+Route::get('/recipients/register_category', [ContributorController::class, 'registerCategory']);
+Route::post('/recipients/save_register_category', [ContributorController::class, 'saveRegisterCategory']);
 
 
 

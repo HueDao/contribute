@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ContributorModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\ObjectsModel;
 
 class ContributorController extends Controller
 {
@@ -29,16 +30,19 @@ class ContributorController extends Controller
   }
 
   public function create(){
-      return view('contributors.create');
+    $objects = ObjectsModel::all();
+    $data["objects"] = $objects; 
+    return view('contributors.create', $data);
   }
   public function store(Request $request) {
     // validate dữ liệu
     $validatedData = $request->validate([
-        'name' => 'required',
-        'email' => 'required|unique:contributors',
-        'password' => 'required|min:6|required_with:password_confirmation|same:password_confirmation',
-        'password_confirmation' => 'required|min:6',
-        'desc' => 'required',
+      'name' => 'required',
+      'email' => 'required|unique:contributors',
+      'password' => 'required|min:6|required_with:password_confirmation|same:password_confirmation',
+      'password_confirmation' => 'required|min:6',
+      'desc' => 'required',
+      'role' => 'required',
     ]);
     $name = $request->input('name', '');
     $email = $request->input('email', '');
@@ -46,6 +50,7 @@ class ContributorController extends Controller
     $desc = $request->input('desc', '');
     $address = $request->input('address', '');
     $number_phone = $request->input('desc', '');
+    $role = $request->input('role', 0);
     $contributor = new ContributorModel();
     $contributor->name = $name;
     $contributor->email = $email;
@@ -53,6 +58,7 @@ class ContributorController extends Controller
     $contributor->desc = $desc;
     $contributor->address = $address;
     $contributor->number_phone = $number_phone;
+    $contributor-> role = $role;
     $contributor->save();
     return redirect("/contributor/login")->with('status', 'Đăng kí người đóng góp thành công !');
   }
@@ -94,5 +100,18 @@ class ContributorController extends Controller
     $contributor = ContributorModel::findOrFail($id);
     $contributor->delete();
     return redirect("/contributor/index")->with('status', 'xóa sản phẩm thành công !');
+  }
+
+  public function registerHome() {
+    return view("recipients.home");
+  }
+  public function registerCategory() {
+    $categorys = CategoryModel::all();
+    $data["categorys"] = $categorys; 
+    return view('recipients.register_category', $data);
+  }
+
+  public function saveRegisterCategory() {
+
   }
 }

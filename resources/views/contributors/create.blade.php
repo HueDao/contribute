@@ -15,17 +15,25 @@
   <form name="category" action="{{ url("/contributor/store") }}" method="post">
       @csrf
       <div class="form-group">
-          <label for="name">Tên:</label>
-          <input type="text" name="name" class="form-control" id="name">
-      </div>
-
-      <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" name="email" class="form-control" id="email">
+        <label for="name">Tên:</label>
+        <input type="text" name="name" class="form-control" id="name">
       </div>
       <div class="form-group">
-          <label for="password">Mật khẩu:</label>
-          <input type="text" name="password" class="form-control" id="password">
+        <label for="email">Email:</label>
+        <input type="email" name="email" class="form-control" id="email">
+      </div>
+      <div class="form-group">
+        <label >Đối tượng đóng:</label>
+        <select name="role">
+        <option>--Chọn đối tượng đóng góp--</option>
+            @foreach ($objects as $object)
+        <option value="{{ $object->role }}">{{ $object->object_name }}</option>
+            @endforeach
+        </select>
+        </div>
+      <div class="form-group">
+        <label for="password">Mật khẩu:</label>
+        <input type="text" name="password" class="form-control" id="password">
       </div>
 
       <div class="form-group">
