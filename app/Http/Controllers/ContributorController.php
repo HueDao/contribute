@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\ObjectsModel;
 use App\Models\CategoryModel;
+use App\Models\CategoryUserModel;
 
 class ContributorController extends Controller
 {
@@ -59,7 +60,7 @@ class ContributorController extends Controller
     $contributor->desc = $desc;
     $contributor->address = $address;
     $contributor->number_phone = $number_phone;
-    $contributor-> role = $role;
+    $contributor->role = $role;
     $contributor->save();
     return redirect("/contributor/login")->with('status', 'Đăng kí người đóng góp thành công !');
   }
@@ -112,8 +113,39 @@ class ContributorController extends Controller
     return view('recipients.register_category', $data);
   }
 
-  public function saveRegisterCategory() {
-    dd($_POST);
+  public function saveRegisterCategory(Request $request) {
+    $user_id = session('contributor_login', false)['id'];
+    $loop = $request->get('category_id');
+    foreach ($loop as $value){
+        $category_user = new CategoryUserModel;
+        $category_user->user_id = $user_id;
+        $category_user->category_id = $value;
+        $category_user->save();
+    }
+    return redirect('/recipients/home');
+  }
+
+  public function listRepicient(Request $request) {   
+    $sort = $request->query('contributor_sort', "");
+    $searchKeyword = $request->query('contributor_name', "");
+    $queryORM = ContributorModel::where('name', "LIKE", "%".$searchKeyword."%")->where('role',2);
+    if ($sort == "name_asc") {
+      $queryORM->orderBy('name', 'asc');
+    }
+    if ($sort == "name_desc") {
+      $queryORM->orderBy('name', 'desc');
+    }
+    // $contributors = $queryORM->paginate(10);
+    $contributors = \App\Models\ContributorModel::with('categoryUsers')->where('role',2)->get();
+    foreach ($contributors as $c) {
+      dd($c);
+    }
     die;
+    $data = [];
+    $data['contributors'] = $contributors;
+    $data["searchKeyword"] = $searchKeyword;
+    $data["sort"] = $sort;
+    $category = CategoryUserModel::all();
+    return view('recipients.list', $data);
   }
 }

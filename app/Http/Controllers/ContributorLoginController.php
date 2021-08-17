@@ -28,6 +28,7 @@ class ContributorLoginController extends Controller
     ]);
     $email = $request->input('email', '');
     $password = $request->input('password', '');
+    $remember_me = $request->input('remember_me', '');
     $contributor = DB::table('contributors')
       ->where('email', '=', $email)
       ->first();
@@ -44,9 +45,27 @@ class ContributorLoginController extends Controller
         "desc" => $contributor->desc,
         "address" => $contributor->address,
         "number_phone" => $contributor->number_phone,
+        "role" => $contributor->role,
       ];
       session(['contributor_login' => $contributorLogin]);
-      return redirect('product/index');
+       // tạo cookie remember Me và cập nhật vào trong bản ghi của CSDL
+      if ($remember_me == "on") {
+        $minutes = 3600*30;
+        $hash = $contributor->id.$contributor->email.$contributor->password;
+        $cookieValue = Hash::make($hash);
+        cookie('contributor_login_remember', $cookieValue, $minutes);
+        // update vào CSDL
+        DB::table('contributors')
+          ->where('id', $contributor->id)
+          ->update(['remember_token' => $cookieValue]);
+      }
+      if( $contributor->role == 2) {
+        return redirect('/recipients/home');
+      } elseif ($contributor->role == 1) {
+        return redirect('product/index');
+      } else {
+        return redirect('category/index');
+      }
     }
     $request->session()->flash('status', 'thông tin đăng nhập không đúng !!');
     // Hiển thị trang login
@@ -54,6 +73,7 @@ class ContributorLoginController extends Controller
   }
 
   public function logout(Request $request) {
+    cookie('contributor_login_remember', "", -3600*30);
     $request->session()->forget(['contributor_login']);
     $request->session()->flush();
     return redirect('/contributor/login');

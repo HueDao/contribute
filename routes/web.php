@@ -17,7 +17,7 @@ use App\Http\Controllers\ContributorLoginController;
 |
 */
 
-Route::get('/product/index', [ProductsController::class, 'index']);
+Route::get('/product/index', [ProductsController::class, 'index'])->middleware('contributorauth');
 Route::get('/product/create', [ProductsController::class, 'create']);
 Route::get('/product/edit/{id}', [ProductsController::class, 'edit']);
 Route::get('/product/delete/{id}', [ProductsController::class, 'delete']);
@@ -54,9 +54,12 @@ Route::post('/contributor/destroy/{id}', [ContributorController::class, 'destroy
 
 Route::get('/contributor/infor', [ContributorController::class, 'infor']);
 
-Route::get('/recipients/home', [ContributorController::class, 'registerHome']);
-Route::get('/recipients/register_category', [ContributorController::class, 'registerCategory']);
-Route::post('/recipients/save_register_category', [ContributorController::class, 'saveRegisterCategory']);
+Route::get('/recipients/home', [ContributorController::class, 'registerHome'])->middleware('recipientauth');
+Route::get('/recipients/register_category', [ContributorController::class, 'registerCategory'])->middleware('recipientauth');
+Route::post('/recipients/save_register_category', [ContributorController::class, 'saveRegisterCategory'])->middleware('recipientauth');
+
+Route::get('/recipients/list', [ContributorController::class, 'listRepicient']);
+
 
 
 

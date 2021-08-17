@@ -12,6 +12,7 @@
   <div class="container">
     <div style = "padding: 20px">
       <a href="{{ url("/recipients/register_category")}}" class="btn btn-info">Đăng kí danh mục muốn nhận đóng góp</a>
+      <a style="float: right" href="{{ url("/contributor/logout")}}" class="btn btn-info">Logout</a>
     </div>
     <div style = "padding: 20px">
       <a href="{{ url("/recipients/register_category")}}" class="btn btn-info">Danh sách sản phẩm đóng góp</a>

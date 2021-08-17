@@ -25,7 +25,7 @@
       <div class="form-group">
         <label >Đối tượng đóng:</label>
         <select name="role">
-        <option>--Chọn đối tượng đóng góp--</option>
+        <option value="0">--Chọn đối tượng đóng góp--</option>
             @foreach ($objects as $object)
         <option value="{{ $object->role }}">{{ $object->object_name }}</option>
             @endforeach

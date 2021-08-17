@@ -16,7 +16,8 @@
     @csrf
     @foreach ($categories as $category)
     <div class="form-check">
-    <input class="form-check-input" type="checkbox" value="{{ $category->id }}" name="{{ $category->id }}" id="defaultCheck1">
+    <!-- <input class="form-check-input" type="checkbox" value="{{ $category->id }}" name="category_id" id="defaultCheck1"> -->
+    <input type="checkbox" value="{{$category->id}}" name="category_id[]">
     <label class="form-check-label" for="defaultCheck1">
       {{ $category->category_name }}
     </label>

@@ -21,6 +21,10 @@
           <label>Password</label>
           <input type="password" name="password" class="form-control" id="password" placeholder="Password">
       </div>
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="remember_me">
+        <label class="form-check-label" for="exampleCheck1">Remember me</label>
+      </div>
       <div style = "padding: 20px">
         <a href="{{ url("/contributor/create")}}">Đăng kí người đóng góp</a>
       </div>

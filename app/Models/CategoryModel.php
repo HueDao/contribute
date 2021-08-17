@@ -9,4 +9,7 @@ class CategoryModel extends Model
 {
     protected $table = 'category';
     protected $primaryKey = 'id';
+    public function categoryUsers() {
+        return $this->hasMany('App\Models\CategoryUserModel', 'local_key');
+    }
 }

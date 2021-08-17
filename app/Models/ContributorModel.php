@@ -9,4 +9,7 @@ class ContributorModel extends Model
 {
   protected $table = 'contributors';
   protected $primaryKey = 'id';
+  public function categoryUsers() {
+    return $this->hasMany('App\Models\CategoryUserModel', 'user_id');
+  }
 }
