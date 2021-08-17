@@ -40,8 +40,9 @@ Route::post('/category/update/{id}', [CategoryController::class, 'update']);
 Route::post('/category/destroy/{id}', [CategoryController::class, 'destroy']);
 
 
-Route::get('/', [ContributorLoginController::class, 'login']);
-Route::post('/contributor/login_post', [ContributorLoginController::class, 'loginPost']);
+Route::get('/', [ContributorLoginController::class, 'index']);
+Route::get('/login', [ContributorLoginController::class, 'index']);
+Route::post('/contributor/login', [ContributorLoginController::class, 'login']);
 Route::get('/contributor/logout', [ContributorLoginController::class, 'logout']);
 
 Route::get('/contributor/index', [ContributorController::class, 'index']);

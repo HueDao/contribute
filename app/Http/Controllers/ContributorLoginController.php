@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\CookieHelper;
+use App\Helper\RouterRoleHelper;
+use App\Helper\SessionHelper;
+use App\Models\ContributorModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 
 class ContributorLoginController extends Controller
 {
-    public function login()
+    protected $contribute;
+
+    public function index()
     {
         $session_contributor_login = session('contributor_login', false);
 
@@ -16,67 +22,41 @@ class ContributorLoginController extends Controller
             return redirect('product/index');
         }
 
-        return view("login.contributor_login");
+        return view("login.login");
     }
 
-    public function loginPost(Request $request)
+    public function login(Request $request,
+                          ContributorModel $contributorModel,
+                          SessionHelper $sessionHelper,
+                          CookieHelper $cookieHelper)
     {
-        // validate dữ liệu
-        $validatedData = $request->validate([
-            'email' => 'required',
-            'password' => 'required'
-        ]);
         $email = $request->input('email', '');
         $password = $request->input('password', '');
         $remember_me = $request->input('remember_me', '');
-        $contributor = DB::table('contributors')
-            ->where('email', '=', $email)
-            ->first();
-        if (!$contributor) {
-            $request->session()->flash('status', 'thông tin đăng nhập không đúng !!');
-            return view("login.contributor_login");
+        $contributor = $contributorModel->getUserEmail($email);
+
+        if (!$contributor || !Hash::check($password, $contributor->password)) {
+            return Redirect::back()->withErrors("Email or password isn't correct.");
         }
-        if (isset($contributor->id) && ($contributor->id > 0) && Hash::check($password, $contributor->password)) {
-            $contributorLogin = [
-                "id" => $contributor->id,
-                "email" => $contributor->email,
-                "name" => $contributor->name,
-                "password" => $contributor->password,
-                "desc" => $contributor->desc,
-                "address" => $contributor->address,
-                "number_phone" => $contributor->number_phone,
-                "role" => $contributor->role,
-            ];
-            session(['contributor_login' => $contributorLogin]);
-            // tạo cookie remember Me và cập nhật vào trong bản ghi của CSDL
-            if ($remember_me == "on") {
-                $minutes = 3600 * 30;
-                $hash = $contributor->id . $contributor->email . $contributor->password;
-                $cookieValue = Hash::make($hash);
-                cookie('contributor_login_remember', $cookieValue, $minutes);
-                // update vào CSDL
-                DB::table('contributors')
-                    ->where('id', $contributor->id)
-                    ->update(['remember_token' => $cookieValue]);
-            }
-            if ($contributor->role == 2) {
-                return redirect('/recipients/home');
-            } elseif ($contributor->role == 1) {
-                return redirect('product/index');
-            } else {
-                return redirect('category/index');
-            }
+
+        $sessionHelper->create($contributor)->set();
+
+        if ($remember_me == "on") {
+            $hash = $contributor->id . $contributor->email . $contributor->password;
+            $cookieValue = $cookieHelper->create(Hash::make($hash))->get();
+            $contributor->update(['remember_token' => $cookieValue]);
         }
-        $request->session()->flash('status', 'thông tin đăng nhập không đúng !!');
-        // Hiển thị trang login
-        return view("login.contributor_login");
+
+        return RouterRoleHelper::redirectUserRole($contributor);
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request,
+                           SessionHelper $sessionHelper,
+                           CookieHelper $cookieHelper)
     {
-        cookie('contributor_login_remember', "", -3600 * 30);
-        $request->session()->forget(['contributor_login']);
-        $request->session()->flush();
-        return redirect('/contributor/login');
+        $sessionHelper->delete($request);
+        $cookieHelper->delete();
+
+        return redirect('/');
     }
 }

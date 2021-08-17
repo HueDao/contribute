@@ -6,7 +6,6 @@ body {
 body {
     display: flex;
     align-items: center;
-    padding-top: 40px;
     padding-bottom: 40px;
     background-color: #f5f5f5;
 }
@@ -14,7 +13,6 @@ body {
 .form-signin {
     width: 100%;
     max-width: 330px;
-    padding: 15px;
     margin: auto;
 }
 
@@ -36,4 +34,12 @@ body {
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+}
+
+.msg-error{
+    eight: 50px;
+    background: red;
+    line-height: 50px;
+    color: white;
+    font-weight: bold;
 }
