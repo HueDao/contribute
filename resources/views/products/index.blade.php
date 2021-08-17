@@ -50,6 +50,7 @@
           <th>Số lượng</th>
           <th>Hạn sử dụng</th>
           <th>Mô tả</th>
+          <th>Trạng thái sản phẩm</th>
           <th>Hành động</th>
         </tr>
       </thead>
@@ -63,6 +64,7 @@
               <td>{{ $p->product_quantity }}</td>
               <td>{{ $p->product_enpiry }}</td>
               <td>{{ $p->product_desc }}</td>
+              <td>{{}}</td>
               <td>
                 <a href="{{url("/product/edit/$p->id")}}" class="btn btn-warning">Sửa sản phẩm</a>
                 <a href="{{url("/product/delete/$p->id")}}" class="btn btn-danger">Xóa sản phẩm</a>
