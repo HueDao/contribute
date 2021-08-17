@@ -10,27 +10,7 @@
 </head>
 <body>
   <div class="container">
-  <div style = "padding: 20px">
-      <a href="{{ url("/volunteers/infor")}}" class="btn btn-info">Thông tin tài khoản</a>
-      <a style="float: right" href="{{ url("/conributor/logout")}}" class="btn btn-info">Logout</a>
-    </div>
-    <h2>Danh sách người nhận đóng gop</h2>   
-    <div style="padding: 10px; border: 1px solid #4e73df ;margin-bottom: 10px">
-    <form name="search_contributor" method="get" action="{{ htmlspecialchars($_SERVER["REQUEST_URI"]) }}" class="form-inline">
-      <input name="contributor_name" class="form-control" value = "{{ $searchKeyword }}" style="width: 350px; margin-right: 20px" placeholder="Nhập tên cá nhân bạn muốn tìm kiếm ..." autocomplete="off">
-      <select name="contributor_sort" class="form-control" style="width: 150px; margin-right: 20px">
-        <option value="">Sắp xếp</option>
-        <option value="name_asc" {{ $sort == "name_asc" ? " selected" : "" }}>Tên A-Z</option>
-        <option value="name_desc" {{ $sort == "name_desc" ? " selected" : "" }}>Tên Z-A</option>
-      </select>
-      <input type="submit" name="search" class="btn btn-success" value="Lọc kết quả">
-      <a href="#" id="clear-search" class="btn btn-warning">Clear filter</a>
-      <input type="hidden" name="page" value="1">
-    </form>
-  </div>
-    <div style = "padding: 20px">
-      <a href="{{ url("/contributor/create")}}" class="btn btn-info">Thêm người đóng góp</a>
-    </div>
+  <h1>Danh sách tổ chức nhận quyên góp</h1>
   <table class="table table-bordered">
       <thead>
         <tr>
@@ -40,21 +20,21 @@
           <th>Địa chỉ</th>
           <th>Số điện thoại</th>
           <th>Mô tả</th>
-          <th>Danh mục sản phẩm/đồ dùng muốn nhận</th>
+          <th>Hành động</th>
         </tr>
       </thead>
       <tbody>
-        @if(isset($contributors) && !empty($contributors))
-          @foreach ($contributors as $c)
+        @if(isset($recipients) && !empty($recipients))
+          @foreach ($recipients as $r)
             <tr>
-              <td>{{ $c->id }}</td>
-              <td>{{ $c->name }}</td>
-              <td>{{ $c->email }}</td>
-              <td>{{ $c->number_phone}}</td>
-              <td>{{ $c->address}}</td>
-              <td>{{ $c->desc }}</td>
+              <td>{{ $r->id }}</td>
+              <td>{{ $r->name }}</td>
+              <td>{{ $r->email }}</td>
+              <td>{{ $r->number_phone}}</td>
+              <td>{{ $r->address}}</td>
+              <td>{{ $r->desc }}</td>
               <td>
-                  {{ $c->category_id }}
+                <a href="{{url("/product/contribute/$category_id/$r->id")}}" class="btn btn-success">Chọn</a>
               </td>
             </tr>
           @endforeach
@@ -63,7 +43,6 @@
         @endif
       </tbody>
     </table>
-   
   </div>
 </body>
 </html>

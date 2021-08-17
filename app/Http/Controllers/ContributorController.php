@@ -125,27 +125,14 @@ class ContributorController extends Controller
     return redirect('/recipients/home');
   }
 
-  public function listRepicient(Request $request) {   
-    $sort = $request->query('contributor_sort', "");
-    $searchKeyword = $request->query('contributor_name', "");
-    $queryORM = ContributorModel::where('name', "LIKE", "%".$searchKeyword."%")->where('role',2);
-    if ($sort == "name_asc") {
-      $queryORM->orderBy('name', 'asc');
-    }
-    if ($sort == "name_desc") {
-      $queryORM->orderBy('name', 'desc');
-    }
-    // $contributors = $queryORM->paginate(10);
-    $contributors = \App\Models\ContributorModel::with('categoryUsers')->where('role',2)->get();
-    foreach ($contributors as $c) {
-      dd($c);
-    }
-    die;
+  public function listRepicient(Request $request, $id) {   
+    $recipients_id = [];
+    $recipients_id = CategoryUserModel::where('category_id', $id)->pluck('user_id');
+    
+    $recipients = ContributorModel::whereIn('id',$recipients_id)->get();
     $data = [];
-    $data['contributors'] = $contributors;
-    $data["searchKeyword"] = $searchKeyword;
-    $data["sort"] = $sort;
-    $category = CategoryUserModel::all();
+    $data['recipients'] = $recipients;
+    $data['category_id'] = $id;
     return view('recipients.list', $data);
   }
 }

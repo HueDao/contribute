@@ -39,6 +39,7 @@
   </div>
     <div style = "padding: 20px">
       <a href="{{ url("/product/create")}}" class="btn btn-info">Thêm sản phẩm đóng góp</a>
+      <a style="float: right" href="{{ url("/category/contribute")}}" class="btn btn-info">Đóng góp</a>
     </div>
     <table class="table table-bordered">
       <thead>

@@ -11,11 +11,13 @@ class ProductsController extends Controller
 {
     
     public function index(Request $request)
-    {   
+    {  
+      $user_id = session('contributor_login', false)['id'];
       $sort = $request->query('product_sort', "");
       $searchKeyword = $request->query('product_name', "");
       $category_id = (int) $request->query('category_id', 0);
-      $queryORM = ProductsModel::where('product_name', "LIKE", "%".$searchKeyword."%");
+      $queryORM = ProductsModel::where('product_name', "LIKE", "%".$searchKeyword."%")
+                  ->where('user_id',$user_id);
       if($category_id != 0) {
         $queryORM = $queryORM->where('category_id', $category_id);
       }
@@ -57,6 +59,7 @@ class ProductsController extends Controller
     //     'product_desc' => 'required',
     //     'product_quantity' => 'required',
     //  ]);
+      $user_id = session('contributor_login', false)['id'];
       $product_name = $request->input('product_name', '');
       $category_id = (int) $request->input('category_id', 0);
       $product_quantity = $request->input('product_quantity', 0);
@@ -66,6 +69,7 @@ class ProductsController extends Controller
           $product_enpiry = 'unlimited';
       }
       $product = new ProductsModel();
+      $product->user_id = $user_id;
       $product->product_name = $product_name;
       $product->category_id = $category_id;
       $product->product_desc = $product_desc;
@@ -118,7 +122,15 @@ class ProductsController extends Controller
       // lấy đối tượng model dựa trên biến $id
       $product = ProductsModel::findOrFail($id);
       $product->delete();
-      // chuyển hướng về trang /backend/product/index
       return redirect("/product/index")->with('status', 'xóa sản phẩm thành công !');
+    }
+
+    public function productContribute($category_id, $recipient_id) {
+      $user_id = session('contributor_login', false)['id'];
+      $products = ProductsModel::where('user_id', $user_id)->where('category_id', $category_id)->get();
+      $data = [];
+      $data['products'] = $products;
+      $data['recipient_id'] = $recipient_id;
+      return view('products.contribute', $data);
     }
 }

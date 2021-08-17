@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 class ContributorLoginController extends Controller
 {
   public function loginview() {
-      
     $session_contributor_login = session('contributor_login', false);
     $data = [];
     var_dump($session_contributor_login);
