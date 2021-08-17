@@ -40,7 +40,7 @@ Route::post('/category/update/{id}', [CategoryController::class, 'update']);
 Route::post('/category/destroy/{id}', [CategoryController::class, 'destroy']);
 
 
-Route::get('/contributor/login', [ContributorLoginController::class, 'loginview']);
+Route::get('/', [ContributorLoginController::class, 'login']);
 Route::post('/contributor/login_post', [ContributorLoginController::class, 'loginPost']);
 Route::get('/contributor/logout', [ContributorLoginController::class, 'logout']);
 

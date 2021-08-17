@@ -9,9 +9,9 @@ use App\Models\CategoryModel;
 
 class ProductsController extends Controller
 {
-    
+
     public function index(Request $request)
-    {   
+    {
       $sort = $request->query('product_sort', "");
       $searchKeyword = $request->query('product_name', "");
       $category_id = (int) $request->query('category_id', 0);
@@ -50,21 +50,16 @@ class ProductsController extends Controller
     }
 
     public function store(Request $request) {
-    //   $validatedData = $request->validate([
-    //     'product_name' => 'required',
-    //     'category_id' => 'required',
-    //     'product_expiry' => 'required',
-    //     'product_desc' => 'required',
-    //     'product_quantity' => 'required',
-    //  ]);
       $product_name = $request->input('product_name', '');
       $category_id = (int) $request->input('category_id', 0);
       $product_quantity = $request->input('product_quantity', 0);
       $product_desc = $request->input('product_desc', '');
       $product_enpiry = $request->input('product_enpiry');
+
       if(!$product_enpiry) {
           $product_enpiry = 'unlimited';
       }
+
       $product = new ProductsModel();
       $product->product_name = $product_name;
       $product->category_id = $category_id;
@@ -73,7 +68,8 @@ class ProductsController extends Controller
       $product->product_quantity = $product_quantity;
       $product->product_image = "aa";
       $product->save();
-      return redirect("/product/index")->with('status', 'thêm sản phẩm thành công !');
+
+        return redirect("/product/index")->with('status', 'thêm sản phẩm thành công !');
     }
 
     public function edit($id) {

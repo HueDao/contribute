@@ -2,14 +2,48 @@
 
 namespace App\Models;
 
+use App\Http\Middleware\Authenticate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
-class ContributorModel extends Model
+class ContributorModel extends Authenticate
 {
-  protected $table = 'contributors';
-  protected $primaryKey = 'id';
-  public function categoryUsers() {
-    return $this->hasMany('App\Models\CategoryUserModel', 'user_id');
-  }
+    use HasFactory, Notifiable;
+
+    protected $table = 'contributors';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    public function categoryUsers()
+    {
+        return $this->hasMany('App\Models\CategoryUserModel', 'user_id');
+    }
 }
