@@ -19,29 +19,6 @@ use App\Http\Controllers\ProductRecipientController;
 |
 */
 
-// lưu sản phẩm
-Route::post('/product/store', [ProductsController::class, 'store']);
-// cập nhật sản phẩm
-Route::post('/product/update/{id}', [ProductsController::class, 'update']);
-// xóa sản phẩm
-Route::post('/product/destroy/{id}', [ProductsController::class, 'destroy']);
-
-Route::get('/category/create', [CategoryController::class, 'create']);
-Route::get('/category/edit/{id}', [CategoryController::class, 'edit']);
-Route::get('/category/delete/{id}', [CategoryController::class, 'delete']);
-// lưu danh mục
-Route::post('/category/store', [CategoryController::class, 'store']);
-// cập nhật danh mục
-Route::post('/category/update/{id}', [CategoryController::class, 'update']);
-// xóa danh mục
-Route::post('/category/destroy/{id}', [CategoryController::class, 'destroy']);
-
-Route::get('/', [UserLoginController::class, 'index']);
-Route::get('/login', [UserLoginController::class, 'index']);
-Route::post('/contributor/login', [UserLoginController::class, 'login']);
-Route::get('/logout', [UserLoginController::class, 'logout']);
-
-
 Route::middleware(["owner"])->group(function () {
     Route::get('/contributor/index', [ContributorController::class, 'index']);
     Route::get('/contributor/create', [ContributorController::class, 'create']);
@@ -66,6 +43,33 @@ Route::middleware(["contributor", "owner"])->group(function () {
     Route::get('/product/edit/{id}', [ProductsController::class, 'edit']);
     Route::get('/product/delete/{id}', [ProductsController::class, 'delete']);
 });
+
+Route::middleware(["ship", "owner"])->group(function () {
+
+});
+
+
+// lưu sản phẩm
+Route::post('/product/store', [ProductsController::class, 'store']);
+// cập nhật sản phẩm
+Route::post('/product/update/{id}', [ProductsController::class, 'update']);
+// xóa sản phẩm
+Route::post('/product/destroy/{id}', [ProductsController::class, 'destroy']);
+
+Route::get('/category/create', [CategoryController::class, 'create']);
+Route::get('/category/edit/{id}', [CategoryController::class, 'edit']);
+Route::get('/category/delete/{id}', [CategoryController::class, 'delete']);
+// lưu danh mục
+Route::post('/category/store', [CategoryController::class, 'store']);
+// cập nhật danh mục
+Route::post('/category/update/{id}', [CategoryController::class, 'update']);
+// xóa danh mục
+Route::post('/category/destroy/{id}', [CategoryController::class, 'destroy']);
+
+Route::get('/', [UserLoginController::class, 'index']);
+Route::get('/login', [UserLoginController::class, 'index']);
+Route::post('/contributor/login', [UserLoginController::class, 'login']);
+Route::get('/logout', [UserLoginController::class, 'logout']);
 
 
 Route::get('/category/contribute', [CategoryController::class, 'categoryContribute']);
