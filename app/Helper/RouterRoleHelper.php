@@ -2,6 +2,7 @@
 
 namespace App\Helper;
 
+use App\Constant\RouteConstant;
 use App\Models\ContributorModel;
 
 class RouterRoleHelper
@@ -32,19 +33,19 @@ class RouterRoleHelper
     {
         switch ($role) {
             case ContributorModel::ROLE_RECEIVE:
-                $router = '/recipients/home';
+                $router = RouteConstant::PAGE_RECEIVE_AFTER_LOGIN;
                 break;
             case ContributorModel::ROLE_CONTRIBUTOR:
-                $router = '/product/index';
+                $router = RouteConstant::PAGE_CONTRIBUTOR_AFTER_LOGIN;
                 break;
             case ContributorModel::ROLE_SHIP:
-                $router = '/ship/index';
+                $router = RouteConstant::PAGE_SHIP_AFTER_LOGIN;
                 break;
             case ContributorModel::ROLE_ADMIN:
-                $router = '/contributor/index';
+                $router = RouteConstant::PAGE_ADMIN_AFTER_LOGIN;
                 break;
             default:
-                $router = '/login';
+                $router = RouteConstant::PAGE_ADMIN_DEFAULT;
                 break;
         }
 
