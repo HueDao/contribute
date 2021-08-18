@@ -187,17 +187,15 @@ class ContributorController extends Controller
   }
 
   public function deleteCategoryRegister(Request $request) {
-    try{
-      $user_id = session('contributor_login', false)['id'];
-      $loop = $request->get('category_user_id');
-      foreach ($loop as $value){
-        $category_user = CategoryUserModel::where('user_id', $user_id)
-                                          ->where('id', $value)
-                                          ->update(['is_deleted'=>0]);
-        
-      }
-    } catch (\Exception $e) {
-      echo $e;
+    $user_id = session('contributor_login', false)['id'];
+    $loop = $request->get('category_user_id');
+    if(is_null($loop)) {
+      return redirect('/recipients/register_category')->with('infor', 'Chưa chọn danh mục để xóa!');
+    }
+    foreach ($loop as $value){
+      $category_user = CategoryUserModel::where('user_id', $user_id)
+                                        ->where('id', $value)
+                                        ->update(['is_deleted'=>0]);
     }
     return redirect('/recipients/register_category')->with('infor', 'Xóa thành công danh mục!');
   }

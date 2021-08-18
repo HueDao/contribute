@@ -15,7 +15,7 @@
       <a href="{{ url("/contributor/infor")}}" class="btn btn-info">Thông tin tài khoản</a>
       <a style="float: right" href="{{ url("/contributor/logout")}}" class="btn btn-info">Logout</a>
     </div>
-    <h2>Danh sách sản phẩm nhận đóng góp</h2>   
+    <h2>Danh sách các sản phẩm quyên góp</h2>
     <div style="padding: 10px; border: 1px solid #4e73df ;margin-bottom: 10px">
     <form name="search_product" method="get" action="{{ htmlspecialchars($_SERVER["REQUEST_URI"]) }}" class="form-inline">
       <input name="product_name" class="form-control" value = "{{ $searchKeyword }}" style="width: 350px; margin-right: 20px" placeholder="Nhập tên sản phẩm bạn muốn tìm kiếm ..." autocomplete="off">
@@ -27,7 +27,7 @@
       </select>
       <select name="product_status" class="form-control" style="width: 150px; margin-right: 20px">
         <option>--Chọn trạng thái--</option>
-        @foreach ($status as $s)
+        @foreach ($status_filter as $s)
         <option value="{{ $s->id }}">{{ $s->status_name }}</option>
         @endforeach
       </select>
@@ -35,18 +35,24 @@
         <option value="">Sắp xếp</option>
         <option value="name_asc" {{ $sort == "name_asc" ? " selected" : "" }}>Tên A-Z</option>
         <option value="name_desc" {{ $sort == "name_desc" ? " selected" : "" }}>Tên Z-A</option>
-        <option value="status_asc" {{ $sort == "name_asc" ? " selected" : "" }}>Tên A-Z</option>
-        <option value="status_desc" {{ $sort == "name_desc" ? " selected" : "" }}>Tên Z-A</option>
         <option value="quantity_asc" {{ $sort == "quantity_asc" ? " selected" : "" }}>Số lượng đóng góp tăng dần</option>
         <option value="quantity_desc" {{ $sort == "quantity_desc" ? " selected" : "" }}>Số lượng đóng góp giảm dần</option>
       </select>
       <input type="submit" name="search" class="btn btn-success" value="Lọc kết quả">
     </form>
   </div>
-    <div style = "padding: 20px">
-      <a href="{{ url("/product/create")}}" class="btn btn-info">Thêm sản phẩm đóng góp</a>
-      <a style="float: right" href="{{ url("/category/contribute")}}" class="btn btn-info">Đóng góp</a>
-    </div>
+    @if (session('infor'))
+      <div class="alert alert-success">
+          {{ session('infor') }}
+      </div>
+    @endif
+    @if (session('error'))
+      <div class="alert alert-danger">
+          {{ session('error') }}
+      </div>
+    @endif
+    <form name="delete_register_category" action="{{ url("/change_status_receive")}}" method="post">
+    @csrf
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -58,6 +64,7 @@
           <th>Ngày quyên góp</th>
           <th>Trạng thái sản phẩm</th>
           <th>Cá nhân/ tổ chức quyên góp</th>
+          <th>Địa chỉ của cá nhân/ tổ chức</th>
           <th>Đã nhận</th>
         </tr>
       </thead>
@@ -72,7 +79,8 @@
               <td>{{ $p->product_desc }}</td>
               <td>{{ $p->date_contribute}}</td>
               <td>{{ $p->status_name}}</td>
-              <td></td>
+              <td>{{ $p->name }}</td>
+              <td>{{ $p->address }}</td>
               <td>
                 <input type="checkbox" value="{{$p->id}}" name="product_id[]">
               </td>
@@ -83,7 +91,11 @@
         @endif
       </tbody>
     </table>
-    {{ $products->links() }} 
+    <div style = "padding: 20px">
+      <button type="submit" class="btn btn-primary">Đã nhận sản phẩm</button>
+      <a style="float: right" href="{{ url("/recipients/home")}}" class="btn btn-primary">Back</a>
+    </div>
+  </form>
   </div>
 </body>
 </html>

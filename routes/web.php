@@ -69,6 +69,8 @@ Route::post('/contribute', [ProductRecipientController::class, 'store']);
 Route::get('/products/receive', [ProductsController::class, 'receive']);
 //xóa danh mục người nhận đã đăng kí
 Route::post('/delete/categoryRegister', [ContributorController::class, 'deleteCategoryRegister']);
+//Chuyển trạng thái sản phẩm sang đã nhận
+Route::post('/change_status_receive', [ProductsController::class, 'changeStatusReceive']);
 
 
 

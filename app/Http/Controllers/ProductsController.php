@@ -154,4 +154,61 @@ class ProductsController extends Controller {
     $data['stt'] = 0;
     return view('products.contribute', $data);
   }
+  
+  public function receive(Request $request) {
+    $user_id = session('contributor_login', false)['id'];
+    $sort = $request->query('product_sort', "");
+    $searchKeyword = $request->query('product_name', "");
+    $category_id = (int) $request->query('category_id', 0);
+    $status_id = (int) $request->query('product_status', 0);
+    $queryORM = DB::table('products')
+                ->where('product_name', "LIKE", "%".$searchKeyword."%")
+                ->join('product_recipient', 'product_recipient.product_id', '=', 'products.id')
+                ->join('contributors', 'contributors.id', '=', 'products.user_id')
+                ->join('status_products', 'status_products.id', '=', 'products.status')
+                ->select('products.id','product_name','product_quantity','product_desc', 'product_enpiry', 'date_contribute','status_name', 'contributors.name', 'contributors.address');
+    if($category_id != 0) {
+      $queryORM = $queryORM->where('category_id', $category_id);
+    }
+    if($status_id != 0) {
+      $queryORM = $queryORM->where('status_products.id',  $status_id);
+    }
+    if ($sort == "name_asc") {
+      $queryORM->orderBy('product_name', 'asc');
+    }
+    if ($sort == "name_desc") {
+      $queryORM->orderBy('product_name', 'desc');
+    }
+    if ($sort == "quantity_asc") {
+      $queryORM->orderBy('product_quantity', 'asc');
+    }
+    if ($sort == "quantity_desc") {
+      $queryORM->orderBy('product_quantity', 'desc');
+    }
+    $products = $queryORM->get();
+    $data = [];
+    $data['products'] = $products;
+    $data["searchKeyword"] = $searchKeyword;
+    $data["category_id"] = $category_id;
+    $data["sort"] = $sort;
+    $categories = CategoryModel::all();
+    $data["categories"] = $categories;
+    $status_filter = StatusProductModel::all();
+    $data["status_filter"] = $status_filter;
+    $data['stt'] = 0;
+    
+    return view('products.receive', $data);
+  }
+
+  public function changeStatusReceive(Request $request) {
+    $loop = $request->get('product_id');
+    if(is_null($loop)) {
+      return redirect('/products/receive')->with('error', 'Chưa chọn sản phẩm để xác nhận đã nhận!');
+    }
+    foreach ($loop as $value){
+      $category_user = ProductsModel::where('id', $value)
+                                      ->update(['status'=>4]);
+    }
+    return redirect('/products/receive')->with('infor', 'Xác nhận thực phẩm thành công!');
+  }
 }

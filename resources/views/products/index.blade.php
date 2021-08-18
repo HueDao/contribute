@@ -35,8 +35,6 @@
         <option value="">Sắp xếp</option>
         <option value="name_asc" {{ $sort == "name_asc" ? " selected" : "" }}>Tên A-Z</option>
         <option value="name_desc" {{ $sort == "name_desc" ? " selected" : "" }}>Tên Z-A</option>
-        <option value="status_asc" {{ $sort == "name_asc" ? " selected" : "" }}>Tên A-Z</option>
-        <option value="status_desc" {{ $sort == "name_desc" ? " selected" : "" }}>Tên Z-A</option>
         <option value="quantity_asc" {{ $sort == "quantity_asc" ? " selected" : "" }}>Số lượng đóng góp tăng dần</option>
         <option value="quantity_desc" {{ $sort == "quantity_desc" ? " selected" : "" }}>Số lượng đóng góp giảm dần</option>
       </select>
