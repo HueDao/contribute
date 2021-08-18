@@ -12,9 +12,9 @@
   <div class="container">
   <div style = "padding: 20px">
       <a href="{{ url("/volunteers/infor")}}" class="btn btn-info">Thông tin tài khoản</a>
-      <a style="float: right" href="{{ url("/volunteers/logout")}}" class="btn btn-info">Logout</a>
+      <a style="float: right" href="{{ url("/logout")}}" class="btn btn-info">Logout</a>
     </div>
-    <h2>Danh sách người đóng góp</h2>   
+    <h2>Danh sách người đóng góp</h2>
     <div style="padding: 10px; border: 1px solid #4e73df ;margin-bottom: 10px">
     <form name="search_contributor" method="get" action="{{ htmlspecialchars($_SERVER["REQUEST_URI"]) }}" class="form-inline">
       <input name="contributor_name" class="form-control" value = "{{ $searchKeyword }}" style="width: 350px; margin-right: 20px" placeholder="Nhập tên cá nhân bạn muốn tìm kiếm ..." autocomplete="off">
@@ -64,7 +64,7 @@
         @endif
       </tbody>
     </table>
-    {{ $contributors->links() }} 
+    {{ $contributors->links() }}
   </div>
 </body>
 </html>

@@ -11,9 +11,9 @@
 <body>
   <div class="container">
   <div style = "padding: 20px">
-    <a style="float: right" href="{{ url("/contributor/logout")}}" class="btn btn-info">Logout</a>
+    <a style="float: right" href="{{ url("/logout")}}" class="btn btn-info">Logout</a>
   </div>
-    <h2>Thông tin tài khoản</h2>   
+    <h2>Thông tin tài khoản</h2>
   <table class="table table-bordered">
     <tr>
       <th>Tên cá nhân/ tổ chức</th>
@@ -37,7 +37,7 @@
     </tr>
     </table>
     <div style = "padding: 20px">
-    
+
       <a style="float: right" href="{{ url(".$url")}}" class="btn btn-info">Back</a>
     </div>
   </div>

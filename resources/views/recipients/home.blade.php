@@ -12,7 +12,7 @@
   <div class="container">
     <div style = "padding: 20px">
       <a href="{{ url("/contributor/infor")}}" class="btn btn-info">Thông tin tài khoản</a>
-      <a style="float: right" href="{{ url("/contributor/logout")}}" class="btn btn-info">Logout</a>
+      <a style="float: right" href="{{ url("/logout")}}" class="btn btn-info">Logout</a>
     </div>
     <div class="list-group">
       <a href="{{ url("/recipients/register_category")}}" class="list-group-item list-group-item-action">Đăng kí danh mục muốn nhận đóng góp</a>

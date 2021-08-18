@@ -62,7 +62,9 @@ class Kernel extends HttpKernel
       'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
       'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
       'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-      'contributorauth' => \App\Http\Middleware\ContributorLogin::class,
-      'recipientauth' => \App\Http\Middleware\RecipientLogin::class,
+      'contributor' => \App\Http\Middleware\ContributorAuth::class,
+      'recipient' => \App\Http\Middleware\RecipientAuth::class,
+      'owner' => \App\Http\Middleware\OwnerAuth::class,
+      'ship' => \App\Http\Middleware\ShipAuth::class,
     ];
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Helper\CookieHelper;
+use App\Helper\RoleCookieHelper;
+use App\Helper\RoleSessionHelper;
 use App\Helper\RouterRoleHelper;
 use App\Helper\SessionHelper;
 use App\Models\ContributorModel;
@@ -10,14 +12,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 
-class ContributorLoginController extends Controller
+class UserLoginController extends Controller
 {
-    public function index()
+    public function index(RoleCookieHelper $cookieHelper, RoleSessionHelper $sessionHelper)
     {
-        $session_contributor_login = session('contributor_login', false);
+        $userRole = $sessionHelper->getRole();
 
-        if ($session_contributor_login && isset($session_contributor_login["id"]) && ($session_contributor_login["id"] > 0)) {
-            return redirect('product/index');
+        if ($userRole!== ContributorModel::ROLE_GUEST) {
+            return RouterRoleHelper::redirectUserRole($userRole);
+        }
+
+        $userRole = $cookieHelper->getRole();
+
+        if ($userRole!== ContributorModel::ROLE_GUEST) {
+            return RouterRoleHelper::redirectUserRole($userRole);
         }
 
         return view("login.login");
@@ -45,7 +53,7 @@ class ContributorLoginController extends Controller
             $contributor->update(['remember_token' => $cookieValue]);
         }
 
-        return RouterRoleHelper::redirectUserRole($contributor);
+        return RouterRoleHelper::redirectUserContributor($contributor);
     }
 
     public function logout(Request $request,

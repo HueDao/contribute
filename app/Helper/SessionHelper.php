@@ -53,7 +53,7 @@ class SessionHelper
      * @param Request $request
      * @return $this
      */
-    public function delete(Request $request)
+    public function delete(Request $request): SessionHelper
     {
         $request->session()->forget(['contributor_login']);
         $request->session()->flush();

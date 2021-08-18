@@ -13,7 +13,7 @@ use App\Models\CategoryUserModel;
 class ContributorController extends Controller
 {
   public function index(Request $request)
-  {   
+  {
     $sort = $request->query('contributor_sort', "");
     $searchKeyword = $request->query('contributor_name', "");
     $queryORM = ContributorModel::where('name', "LIKE", "%".$searchKeyword."%");
@@ -33,7 +33,7 @@ class ContributorController extends Controller
 
   public function create(){
     $objects = ObjectsModel::all();
-    $data["objects"] = $objects; 
+    $data["objects"] = $objects;
     return view('contributors.create', $data);
   }
   public function store(Request $request) {
@@ -126,7 +126,7 @@ class ContributorController extends Controller
   public function registerCategory() {
     $user_id = session('contributor_login', false)['id'];
     $categories = CategoryModel::all();
-    $data["categories"] = $categories; 
+    $data["categories"] = $categories;
     $categories_registered = CategoryUserModel::join('category','category.id','=','category_user.category_id')
                                         ->where('user_id', $user_id)
                                         ->where('is_deleted', 1)
@@ -142,7 +142,7 @@ class ContributorController extends Controller
     $loop = $request->get('category_id');
     $data = [];
     $categories = CategoryModel::all();
-    $data["categories"] = $categories; 
+    $data["categories"] = $categories;
     if(!is_null($loop)) {
       foreach ($loop as $value){
         $record = CategoryUserModel::where('user_id', $user_id)
@@ -170,15 +170,15 @@ class ContributorController extends Controller
     } else {
       return redirect('/recipients/register_category')->with('infor', 'Chưa chọn danh mục!');
     }
-    
+
   }
 
-  public function listRepicient(Request $request, $id) {   
+  public function listRecipient(Request $request, $id) {
     $recipients_id = [];
     $recipients_id = CategoryUserModel::where('category_id', $id)
                                       ->where('is_deleted', 1)
                                       ->pluck('user_id');
-    
+
     $recipients = ContributorModel::whereIn('id',$recipients_id)->get();
     $data = [];
     $data['recipients'] = $recipients;
@@ -194,7 +194,7 @@ class ContributorController extends Controller
         $category_user = CategoryUserModel::where('user_id', $user_id)
                                           ->where('id', $value)
                                           ->update(['is_deleted'=>0]);
-        
+
       }
     } catch (\Exception $e) {
       echo $e;

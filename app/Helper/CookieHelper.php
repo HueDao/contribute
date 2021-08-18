@@ -4,7 +4,7 @@ namespace App\Helper;
 
 class CookieHelper
 {
-    const COOKIE_KEY = 'contributor_login';
+    const COOKIE_KEY = 'contributor_login_remember';
 
     /**
      * @param string $dataCookie
@@ -31,11 +31,11 @@ class CookieHelper
     }
 
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Cookie\CookieJar|\Symfony\Component\HttpFoundation\Cookie
+     * @return string|null
      */
     public function get()
     {
-       return cookie(self::COOKIE_KEY);
+       return cookie(self::COOKIE_KEY)->getValue();
     }
 
 }

@@ -9,10 +9,16 @@ class ContributorModel extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    const ROLE_GUEST = -1;
     const ROLE_ADMIN = 1;
-    const ROLE_SENT = 2;
+    const ROLE_CONTRIBUTOR = 2;
     const ROLE_RECEIVE = 3;
     const ROLE_SHIP = 4;
+
+    /**
+     * Role Field table
+     */
+    const FIELD_ROLE = 'role';
 
     protected $table = 'contributors';
 
@@ -67,5 +73,18 @@ class ContributorModel extends Authenticatable
     public function getUserId($userId)
     {
         return self::where('id', '=', $userId)->first();
+    }
+
+    /**
+     * @param $tokenRemember
+     * @return mixed
+     */
+    public function getUserRememberToken($tokenRemember)
+    {
+        if (empty($tokenRemember)) {
+            return null;
+        }
+
+        return self::where('remember_token', '=', $tokenRemember)->first();
     }
 }
