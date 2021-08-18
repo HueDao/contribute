@@ -25,16 +25,22 @@
         <option value="{{ $category->id }}">{{ $category->category_name }}</option>
         @endforeach
       </select>
+      <select name="product_status" class="form-control" style="width: 150px; margin-right: 20px">
+        <option>--Chọn trạng thái--</option>
+        @foreach ($status as $s)
+        <option value="{{ $s->id }}">{{ $s->status_name }}</option>
+        @endforeach
+      </select>
       <select name="product_sort" class="form-control" style="width: 150px; margin-right: 20px">
         <option value="">Sắp xếp</option>
         <option value="name_asc" {{ $sort == "name_asc" ? " selected" : "" }}>Tên A-Z</option>
         <option value="name_desc" {{ $sort == "name_desc" ? " selected" : "" }}>Tên Z-A</option>
+        <option value="status_asc" {{ $sort == "name_asc" ? " selected" : "" }}>Tên A-Z</option>
+        <option value="status_desc" {{ $sort == "name_desc" ? " selected" : "" }}>Tên Z-A</option>
         <option value="quantity_asc" {{ $sort == "quantity_asc" ? " selected" : "" }}>Số lượng đóng góp tăng dần</option>
         <option value="quantity_desc" {{ $sort == "quantity_desc" ? " selected" : "" }}>Số lượng đóng góp giảm dần</option>
       </select>
       <input type="submit" name="search" class="btn btn-success" value="Lọc kết quả">
-      <a href="#" id="clear-search" class="btn btn-warning">Clear filter</a>
-      <input type="hidden" name="page" value="1">
     </form>
   </div>
     <div style = "padding: 20px">
@@ -56,10 +62,9 @@
       </thead>
       <tbody>
         @if(isset($products) && !empty($products))
-        {{ $i = 1}}
           @foreach ($products as $p)
             <tr>
-              <td>{{ $i++ }}</td>
+              <td>{{ ++$stt}}</td>
               <td>{{ $p->product_name }}</td>
               <td>{{ $p->product_quantity }}</td>
               <td>{{ $p->product_enpiry }}</td>

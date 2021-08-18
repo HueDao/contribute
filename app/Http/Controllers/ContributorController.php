@@ -104,6 +104,22 @@ class ContributorController extends Controller
     return redirect("/contributor/index")->with('status', 'xóa sản phẩm thành công !');
   }
 
+  public function infor() {
+    $user_id = session('contributor_login', false)['id'];
+    $data = [];
+    $role = ContributorModel::where('id', $user_id)->pluck("role");
+    foreach ( $role as $r) {
+      if($r == 1) {
+        $data['url'] = '/product/index';
+      } elseif ($r == 2) {
+        $data['url'] = '/recipients/home';
+      }
+    }
+    $contributor = ContributorModel::findOrFail($user_id);
+    $data["contributor"] = $contributor;
+    return view('contributors.infor', $data);
+
+  }
   public function registerHome() {
     return view("recipients.home");
   }

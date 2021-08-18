@@ -14,12 +14,16 @@ class ProductsController extends Controller {
     $sort = $request->query('product_sort', "");
     $searchKeyword = $request->query('product_name', "");
     $category_id = (int) $request->query('category_id', 0);
+    $status_id = (int) $request->query('product_status', 0);
     $queryORM = ProductsModel::where('product_name', "LIKE", "%".$searchKeyword."%")
                 ->where('user_id',$user_id)
                 ->join('status_products','status','status_products.id')
                 ->select('products.id','product_name','product_quantity','product_enpiry','product_image','product_desc','date_contribute','status_products.status_name');
     if($category_id != 0) {
       $queryORM = $queryORM->where('category_id', $category_id);
+    }
+    if($status_id != 0) {
+      $queryORM = $queryORM->where('status_products.id',  $status_id);
     }
     if ($sort == "name_asc") {
       $queryORM->orderBy('product_name', 'asc');
@@ -41,6 +45,9 @@ class ProductsController extends Controller {
     $data["sort"] = $sort;
     $categories = CategoryModel::all();
     $data["categories"] = $categories;
+    $status = StatusProductModel::all();
+    $data["status"] = $status;
+    $data['stt'] = 0;
     return view('products.index', $data);
   }
 
@@ -138,11 +145,13 @@ class ProductsController extends Controller {
     $user_id = session('contributor_login', false)['id'];
     $products = ProductsModel::where('user_id', $user_id)->where('category_id', $category_id)
                             ->join('status_products','status','status_products.id')
+                            ->where('status_products.id', 1)
                             ->select('products.id','product_name','product_quantity','product_enpiry','product_image','product_desc','date_contribute','status_products.status_name')
                             ->get();
     $data = [];
     $data['products'] = $products;
     $data['recipient_id'] = $recipient_id;
+    $data['stt'] = 0;
     return view('products.contribute', $data);
   }
 }

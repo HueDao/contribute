@@ -23,6 +23,9 @@
     </div>
     @endforeach
     <button type="submit" class="btn btn-primary">Đăng kí danh mục sản phẩm nhận</button>
+    <div style = "padding: 20px">
+      <a style="float: right" href="{{ url("/recipients/home")}}" class="btn btn-warning">Hủy</a>
+    </div>
   </form>
 </div>
 </body>

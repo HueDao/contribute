@@ -11,7 +11,6 @@ class ContributorLoginController extends Controller
   public function loginview() {
     $session_contributor_login = session('contributor_login', false);
     $data = [];
-    var_dump($session_contributor_login);
     if ($session_contributor_login && isset($session_contributor_login["id"]) && ($session_contributor_login["id"] > 0)) {
         return redirect('product/index');
     }

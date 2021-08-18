@@ -11,13 +11,17 @@
 <body>
   
   <div class="container">
+  <div style = "padding: 20px">
+      <a href="{{ url("/volunteers/infor")}}" class="btn btn-info">Thông tin tài khoản</a>
+      <a style="float: right" href="{{ url("/volunteers/logout")}}" class="btn btn-info">Logout</a>
+    </div>
     <h1> Danh sách sản phẩm đóng góp </h1>
     <form name="register_product" action="{{ url("/contribute")}}" method="post">
       @csrf
       <table class="table table-bordered">
       <thead>
           <tr>
-          <th>ID</th>
+          <th>STT</th>
           <th>Tên sản phẩm đóng góp</th>
           <th>Số lượng</th>
           <th>Hạn sử dụng</th>
@@ -31,7 +35,7 @@
         @if(isset($products) && !empty($products))
         @foreach ($products as $p)
           <tr>
-          <td>{{ $p->id }}</td>
+          <td>{{ ++$stt}}</td>
           <td>{{ $p->product_name }}</td>
           <td>{{ $p->product_quantity }}</td>
           <td>{{ $p->product_enpiry }}</td>
