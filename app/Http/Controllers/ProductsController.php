@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\ProductsModel;
 use App\Models\CategoryModel;
 use App\Models\StatusProductModel;
 
 class ProductsController extends Controller {
-  public function index(Request $request) {  
+  public function index(Request $request) {
     $user_id = session('contributor_login', false)['id'];
     $sort = $request->query('product_sort', "");
     $searchKeyword = $request->query('product_name', "");
@@ -25,6 +24,7 @@ class ProductsController extends Controller {
     if($status_id != 0) {
       $queryORM = $queryORM->where('status_products.id',  $status_id);
     }
+
     if ($sort == "name_asc") {
       $queryORM->orderBy('product_name', 'asc');
     }

@@ -9,13 +9,13 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-  
+
   <div class="container">
     <div style = "padding: 20px">
       <a href="{{ url("/contributor/infor")}}" class="btn btn-info">Thông tin tài khoản</a>
-      <a style="float: right" href="{{ url("/contributor/logout")}}" class="btn btn-info">Logout</a>
+      <a style="float: right" href="{{ url("/logout")}}" class="btn btn-info">Logout</a>
     </div>
-    <h2>Danh sách đóng góp</h2>   
+    <h2>Danh sách đóng góp</h2>
     <div style="padding: 10px; border: 1px solid #4e73df ;margin-bottom: 10px">
     <form name="search_product" method="get" action="{{ htmlspecialchars($_SERVER["REQUEST_URI"]) }}" class="form-inline">
       <input name="product_name" class="form-control" value = "{{ $searchKeyword }}" style="width: 350px; margin-right: 20px" placeholder="Nhập tên sản phẩm bạn muốn tìm kiếm ..." autocomplete="off">
@@ -80,7 +80,7 @@
         @endif
       </tbody>
     </table>
-    {{ $products->links() }} 
+    {{ $products->links() }}
   </div>
 </body>
 </html>

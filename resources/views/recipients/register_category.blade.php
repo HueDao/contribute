@@ -13,7 +13,7 @@
 <div class="container">
   <div style = "padding: 20px">
     <a href="{{ url("/contributor/infor")}}" class="btn btn-info">Thông tin tài khoản</a>
-    <a style="float: right" href="{{ url("/contributor/logout")}}" class="btn btn-info">Logout</a>
+    <a style="float: right" href="{{ url("/logout")}}" class="btn btn-info">Logout</a>
   </div>
   <h2>Đăng kí danh mục sản phẩm muốn nhận</h2>
   @if (session('infor'))

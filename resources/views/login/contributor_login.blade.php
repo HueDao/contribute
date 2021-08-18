@@ -11,7 +11,7 @@
 <body>
 <div class="container">
     <h1>Đăng nhập</h1>
-    <form name="contributor_login" action="{{ url('/contributor/login_post')}}" method="post">
+    <form name="contributor_login" action="{{ url('/contributor/login')}}" method="post">
       @csrf
       <div class="form-group">
           <label>Email address</label>
@@ -25,7 +25,7 @@
         <input type="checkbox" class="form-check-input" id="exampleCheck1" name="remember_me">
         <label class="form-check-label" for="exampleCheck1">Remember me</label>
       </div>
-      <div style = "padding: 20px">
+      <div>
         <a href="{{ url("/contributor/create")}}">Đăng kí người đóng góp</a>
       </div>
       <button type="submit" class="btn btn-primary" name="submit">Login</button>

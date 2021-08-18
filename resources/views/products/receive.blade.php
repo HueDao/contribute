@@ -9,11 +9,11 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-  
+
   <div class="container">
     <div style = "padding: 20px">
       <a href="{{ url("/contributor/infor")}}" class="btn btn-info">Thông tin tài khoản</a>
-      <a style="float: right" href="{{ url("/contributor/logout")}}" class="btn btn-info">Logout</a>
+      <a style="float: right" href="{{ url("/logout")}}" class="btn btn-info">Logout</a>
     </div>
     <h2>Danh sách các sản phẩm quyên góp</h2>
     <div style="padding: 10px; border: 1px solid #4e73df ;margin-bottom: 10px">
@@ -91,11 +91,15 @@
         @endif
       </tbody>
     </table>
+<<<<<<< HEAD
     <div style = "padding: 20px">
       <button type="submit" class="btn btn-primary">Đã nhận sản phẩm</button>
       <a style="float: right" href="{{ url("/recipients/home")}}" class="btn btn-primary">Back</a>
     </div>
   </form>
+=======
+    {{ $products->links() }}
+>>>>>>> b3a8ce8ae3e3336debda598df0d22109cfdffdd6
   </div>
 </body>
 </html>
