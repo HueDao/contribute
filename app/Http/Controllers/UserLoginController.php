@@ -18,13 +18,13 @@ class UserLoginController extends Controller
     {
         $userRole = $sessionHelper->getRole();
 
-        if ($userRole!== ContributorModel::ROLE_GUEST) {
+        if ($userRole !== ContributorModel::ROLE_GUEST) {
             return RouterRoleHelper::redirectUserRole($userRole);
         }
 
         $userRole = $cookieHelper->getRole();
 
-        if ($userRole!== ContributorModel::ROLE_GUEST) {
+        if ($userRole !== ContributorModel::ROLE_GUEST) {
             return RouterRoleHelper::redirectUserRole($userRole);
         }
 

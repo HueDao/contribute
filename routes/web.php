@@ -67,7 +67,6 @@ Route::post('/category/update/{id}', [CategoryController::class, 'update']);
 Route::post('/category/destroy/{id}', [CategoryController::class, 'destroy']);
 
 Route::get('/', [UserLoginController::class, 'index']);
-Route::get('/login', [UserLoginController::class, 'index']);
 Route::post('/contributor/login', [UserLoginController::class, 'login']);
 Route::get('/logout', [UserLoginController::class, 'logout']);
 

@@ -10,10 +10,10 @@ class ContributorModel extends Authenticatable
     use HasFactory, Notifiable;
 
     const ROLE_GUEST = -1;
-    const ROLE_ADMIN = 1;
-    const ROLE_CONTRIBUTOR = 2;
-    const ROLE_RECEIVE = 3;
-    const ROLE_SHIP = 4;
+    const ROLE_ADMIN = 4;
+    const ROLE_CONTRIBUTOR = 1;
+    const ROLE_RECEIVE = 2;
+    const ROLE_SHIP = 3;
 
     /**
      * Role Field table

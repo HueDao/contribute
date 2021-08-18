@@ -26,10 +26,6 @@ class OwnerAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($this->sessionHelper->isAdminRole() || $this->cookieHelper->isAdminRole()) {
-            return $next($request);
-        }
-
-        return redirect('/');
+        return $next($request);
     }
 }
