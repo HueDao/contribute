@@ -124,31 +124,81 @@ class ContributorController extends Controller
     return view("recipients.home");
   }
   public function registerCategory() {
+    $user_id = session('contributor_login', false)['id'];
     $categories = CategoryModel::all();
     $data["categories"] = $categories; 
+    $categories_registered = CategoryUserModel::join('category','category.id','=','category_user.category_id')
+                                        ->where('user_id', $user_id)
+                                        ->where('is_deleted', 1)
+                                        ->select('category_user.id', 'category_name')
+                                        ->get();
+          $data['categories_registered'] = $categories_registered;
+          $data['stt'] = 0;
     return view('recipients.register_category', $data);
   }
 
   public function saveRegisterCategory(Request $request) {
     $user_id = session('contributor_login', false)['id'];
     $loop = $request->get('category_id');
-    foreach ($loop as $value){
+    $data = [];
+    $categories = CategoryModel::all();
+    $data["categories"] = $categories; 
+    if(!is_null($loop)) {
+      foreach ($loop as $value){
+        $record = CategoryUserModel::where('user_id', $user_id)
+                                    ->where('category_id', $value)
+                                    ->where('is_deleted', 1)
+                                    ->count();
+        if($record > 0) {
+          $data['note'] = 'Danh mục vừa chọn đã đăng kí rồi, xem danh sách danh mục sản phẩm phía dưới và đăng kí lại những danh mục sản phẩm chưa có!';
+          $categories_registered = CategoryUserModel::join('category','category.id','=','category_user.category_id')
+                                        ->where('user_id', $user_id)
+                                        ->where('is_deleted', 1)
+                                        ->select('category_user.id', 'category_name')
+                                        ->get();
+          $data['categories_registered'] = $categories_registered;
+          $data['stt'] = 0;
+          return view('recipients.register_category', $data);
+        }
         $category_user = new CategoryUserModel;
         $category_user->user_id = $user_id;
         $category_user->category_id = $value;
+        $category_user->is_deleted = 1;
         $category_user->save();
+      }
+      return redirect('/recipients/register_category')->with('infor', 'Đăng kí danh mục thành công!');
+    } else {
+      return redirect('/recipients/register_category')->with('infor', 'Chưa chọn danh mục!');
     }
-    return redirect('/recipients/home');
+    
   }
 
   public function listRepicient(Request $request, $id) {   
     $recipients_id = [];
-    $recipients_id = CategoryUserModel::where('category_id', $id)->pluck('user_id');
+    $recipients_id = CategoryUserModel::where('category_id', $id)
+                                      ->where('is_deleted', 1)
+                                      ->pluck('user_id');
     
     $recipients = ContributorModel::whereIn('id',$recipients_id)->get();
     $data = [];
     $data['recipients'] = $recipients;
     $data['category_id'] = $id;
     return view('recipients.list', $data);
+  }
+
+  public function deleteCategoryRegister(Request $request) {
+    try{
+      $user_id = session('contributor_login', false)['id'];
+      $loop = $request->get('category_user_id');
+      foreach ($loop as $value){
+        $category_user = CategoryUserModel::where('user_id', $user_id)
+                                          ->where('id', $value)
+                                          ->update(['is_deleted'=>0]);
+        
+      }
+    } catch (\Exception $e) {
+      echo $e;
+    }
+    return redirect('/recipients/register_category')->with('infor', 'Xóa thành công danh mục!');
   }
 }

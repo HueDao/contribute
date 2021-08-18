@@ -63,8 +63,13 @@ Route::get('/recipients/list/{id}', [ContributorController::class, 'listRepicien
 
 Route::get('/category/contribute', [CategoryController::class, 'categoryContribute']);
 Route::get('/product/contribute/{category_id}/{recipient_id}', [ProductsController::class, 'productContribute']);
-
+// Quyên góp sản phẩm
 Route::post('/contribute', [ProductRecipientController::class, 'store']);
+//Hiển thị danh sách sản phẩm quyên góp cho người nhận 
+Route::get('/products/receive', [ProductsController::class, 'receive']);
+//xóa danh mục người nhận đã đăng kí
+Route::post('/delete/categoryRegister', [ContributorController::class, 'deleteCategoryRegister']);
+
 
 
 

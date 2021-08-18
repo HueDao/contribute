@@ -20,7 +20,6 @@
       <tr>
         <th>ID</th>
         <th>Tên danh mục </th>
-        <th>Ảnh</th>
         <th>Mô tả</th>
         <th>Hành động</th>
       </tr>
@@ -31,7 +30,6 @@
           <tr>
             <td>{{ $c->id }}</td>
             <td>{{ $c->category_name }}</td>
-            <td></td>
             <td>{{ $c->category_desc }}</td>
             <td>
               <a href="{{url("/category/edit/$c->id")}}" class="btn btn-warning">Sửa danh mục</a>
