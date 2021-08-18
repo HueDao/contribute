@@ -15,7 +15,7 @@
       <a href="{{ url("/contributor/infor")}}" class="btn btn-info">Thông tin tài khoản</a>
       <a style="float: right" href="{{ url("/contributor/logout")}}" class="btn btn-info">Logout</a>
     </div>
-    <h2>Danh sách đóng góp</h2>   
+    <h2>Danh sách sản phẩm nhận đóng góp</h2>   
     <div style="padding: 10px; border: 1px solid #4e73df ;margin-bottom: 10px">
     <form name="search_product" method="get" action="{{ htmlspecialchars($_SERVER["REQUEST_URI"]) }}" class="form-inline">
       <input name="product_name" class="form-control" value = "{{ $searchKeyword }}" style="width: 350px; margin-right: 20px" placeholder="Nhập tên sản phẩm bạn muốn tìm kiếm ..." autocomplete="off">
@@ -51,13 +51,14 @@
       <thead>
         <tr>
           <th>STT</th>
-          <th>Tên sản phẩm đóng góp</th>
+          <th>Tên sản phẩm/ đồ dùng</th>
           <th>Số lượng</th>
           <th>Hạn sử dụng</th>
           <th>Mô tả</th>
-          <th>Ngày có thể quyên góp</th>
+          <th>Ngày quyên góp</th>
           <th>Trạng thái sản phẩm</th>
-          <th>Hành động</th>
+          <th>Cá nhân/ tổ chức quyên góp</th>
+          <th>Đã nhận</th>
         </tr>
       </thead>
       <tbody>
@@ -71,9 +72,9 @@
               <td>{{ $p->product_desc }}</td>
               <td>{{ $p->date_contribute}}</td>
               <td>{{ $p->status_name}}</td>
+              <td></td>
               <td>
-                <a href="{{url("/product/edit/$p->id")}}" class="btn btn-warning">Sửa sản phẩm</a>
-                <a href="{{url("/product/delete/$p->id")}}" class="btn btn-danger">Xóa sản phẩm</a>
+                <input type="checkbox" value="{{$p->id}}" name="product_id[]">
               </td>
             </tr>
           @endforeach

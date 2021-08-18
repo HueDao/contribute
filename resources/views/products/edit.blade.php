@@ -26,11 +26,7 @@
         @foreach ($categories as $category)
       <option value="{{ $category->id }}" {{ $category->id == $product->category_id ? "selected" : "" }}>{{ $category->category_name }}</option>
         @endforeach
-</select>
-  </div>
-  <div class="form-group">
-    <label>Ảnh</label>
-    <input type="text" class="form-control" id="product_image" name="product_image" value="{{ $product->product_image}}">
+    </select>
   </div>
   <div class="form-group">
     <label>Số lượng</label>
@@ -42,21 +38,25 @@
   </div>
   <div class="form-group">
     <label>Mô tả</label>
-    <input type="text" class="form-control" id="product_desc" value="{{ $product->product_desc}}">
+    <input type='text' class="form-control" id="product_desc" name="product_desc" value="{{ $product->product_desc}}"/>
+  </div>
+  <div class="form-group">
+    <label>Ngày có thể quyên góp</label>
+    <input type="text" class="form-control" id="date_contribute" name="date_contribute" value="{{ $product->date_contribute}}">
   </div>
   <button type="submit" class="btn btn-primary">Cập nhật sản phẩm</button>
 </form>
 </div>
-<script type="text/javascript">
-  $(document).ready(function () {
-    $("#clear-search").on("click", function (e) {
-    e.preventDefault();
-    $("input[name='product_name']").val('');
-    $("select[name='category_id']").val('');
-    $("select[name='product_sort']").val('');
-    $("form[name='search_product']").trigger("submit");
-  });
-  });
-</script>
 </body>
 </html>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+      $( function() {
+        $( "#product_enpiry" ).datepicker({ dateFormat: 'dd/mm/yy' });
+      } );
+      $( function() {
+        $( "#date_contribute" ).datepicker({ dateFormat: 'dd/mm/yy' });
+      } );
+  </script>

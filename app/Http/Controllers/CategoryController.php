@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CategoryModel;
 use Illuminate\Support\Facades\DB;
+use App\Models\ProductsModel;
 
 class CategoryController extends Controller
 {
@@ -72,5 +73,14 @@ class CategoryController extends Controller
       $category->delete();
       // chuyển hướng về trang /backend/category/index
       return redirect("/category/index")->with('status', 'xóa danh mục thành công !');
+    }
+
+    public function categoryContribute() {
+      $user_id = session('contributor_login', false)['id'];
+      $categories_id = ProductsModel::select('category_id')->where('user_id', $user_id)->get();
+      $categories = CategoryModel::whereIn('id',$categories_id)->get();
+      $data = [];
+      $data['categories'] = $categories;
+      return view('category.contribute', $data);
     }
 }

@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoryUserModel extends Model
+class StatusProductModel extends Model
 {
-    protected $table = 'category_user';
+    protected $table = 'status_products';
     protected $primaryKey = 'id';
 }

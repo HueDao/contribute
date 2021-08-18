@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Redirect;
 
 class ContributorLoginController extends Controller
 {
-    protected $contribute;
-
     public function index()
     {
         $session_contributor_login = session('contributor_login', false);

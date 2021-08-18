@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContributorController;
 use App\Http\Controllers\ContributorLoginController;
+use App\Http\Controllers\ProductRecipientController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -59,7 +60,16 @@ Route::get('/recipients/home', [ContributorController::class, 'registerHome'])->
 Route::get('/recipients/register_category', [ContributorController::class, 'registerCategory'])->middleware('recipientauth');
 Route::post('/recipients/save_register_category', [ContributorController::class, 'saveRegisterCategory'])->middleware('recipientauth');
 
-Route::get('/recipients/list', [ContributorController::class, 'listRepicient']);
+Route::get('/recipients/list/{id}', [ContributorController::class, 'listRepicient']);
+
+Route::get('/category/contribute', [CategoryController::class, 'categoryContribute']);
+Route::get('/product/contribute/{category_id}/{recipient_id}', [ProductsController::class, 'productContribute']);
+// Quyên góp sản phẩm
+Route::post('/contribute', [ProductRecipientController::class, 'store']);
+//Hiển thị danh sách sản phẩm quyên góp cho người nhận 
+Route::get('/products/receive', [ProductsController::class, 'receive']);
+//xóa danh mục người nhận đã đăng kí
+Route::post('/delete/categoryRegister', [ContributorController::class, 'deleteCategoryRegister']);
 
 
 

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -68,28 +67,5 @@ class ContributorModel extends Authenticatable
     public function getUserId($userId)
     {
         return self::where('id', '=', $userId)->first();
-    }
-
-    /**
-     * @param ContributorModel $contributor
-     * @return array
-     */
-    public static function createUserSession(ContributorModel $contributor)
-    {
-        return [
-            "id" => $contributor->id,
-            "email" => $contributor->email,
-            "name" => $contributor->name,
-            "password" => $contributor->password,
-            "desc" => $contributor->desc,
-            "address" => $contributor->address,
-            "number_phone" => $contributor->number_phone,
-            "role" => $contributor->role,
-        ];
-    }
-
-    public function setUserSession($sessionData)
-    {
-        session(['contributor_login' => $sessionData]);
     }
 }
