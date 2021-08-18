@@ -19,11 +19,12 @@
           <tr>
           <th>ID</th>
           <th>Tên sản phẩm đóng góp</th>
-          <th>Ảnh</th>
           <th>Số lượng</th>
           <th>Hạn sử dụng</th>
           <th>Mô tả</th>
-          <th>Hành động</th>
+          <th>Ngày có thể quyên góp</th>
+          <th>Trạng thái</th>
+          <th>Đóng góp</th>
           </tr>
       </thead>
       <tbody>
@@ -32,10 +33,11 @@
           <tr>
           <td>{{ $p->id }}</td>
           <td>{{ $p->product_name }}</td>
-          <td></td>
           <td>{{ $p->product_quantity }}</td>
           <td>{{ $p->product_enpiry }}</td>
           <td>{{ $p->product_desc }}</td>
+          <td>{{ $p->date_contribute}}</td>
+          <td>{{ $p->status_name}}</td>
           <td>
             <input type="checkbox" value="{{$p->id}}" name="product_id[]">
           </td>

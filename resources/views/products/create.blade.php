@@ -29,10 +29,6 @@
     </select>
   </div>
   <div class="form-group">
-    <label>Ảnh</label>
-    <input type="text" class="form-control" id="product_image" name="product_image">
-  </div>
-  <div class="form-group">
     <label>Số lượng</label>
     <input type="text" class="form-control" id="product_quantity" name="product_quantity">
   </div>
@@ -42,10 +38,26 @@
   </div>
   <div class="form-group">
     <label>Mô tả</label>
-    <input type="text" class="form-control" id="product_desc">
+    <textarea class="form-control" id="product_desc" name="product_desc"></textarea>
+  </div>
+  <div class="form-group">
+    <label>Ngày có thể quyên góp</label>
+    <input type="text" class="form-control" id="date_contribute" name="date_contribute">
   </div>
   <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
 </form>
 </div>
 </body>
 </html>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#product_enpiry" ).datepicker({ dateFormat: 'dd/mm/yy' });
+  } );
+  $( function() {
+    $( "#date_contribute" ).datepicker({ dateFormat: 'dd/mm/yy' });
+  } );
+  </script>
+

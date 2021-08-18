@@ -44,27 +44,28 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th>ID</th>
+          <th>STT</th>
           <th>Tên sản phẩm đóng góp</th>
-          <th>Ảnh</th>
           <th>Số lượng</th>
           <th>Hạn sử dụng</th>
           <th>Mô tả</th>
+          <th>Ngày có thể quyên góp</th>
           <th>Trạng thái sản phẩm</th>
           <th>Hành động</th>
         </tr>
       </thead>
       <tbody>
         @if(isset($products) && !empty($products))
+        {{ $i = 1}}
           @foreach ($products as $p)
             <tr>
-              <td>{{ $p->id }}</td>
+              <td>{{ $i++ }}</td>
               <td>{{ $p->product_name }}</td>
-              <td></td>
               <td>{{ $p->product_quantity }}</td>
               <td>{{ $p->product_enpiry }}</td>
               <td>{{ $p->product_desc }}</td>
-              <td>{{}}</td>
+              <td>{{ $p->date_contribute}}</td>
+              <td>{{ $p->status_name}}</td>
               <td>
                 <a href="{{url("/product/edit/$p->id")}}" class="btn btn-warning">Sửa sản phẩm</a>
                 <a href="{{url("/product/delete/$p->id")}}" class="btn btn-danger">Xóa sản phẩm</a>

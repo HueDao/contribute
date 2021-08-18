@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class SatusProductModel extends Model
 {
-    protected $table = 'status_product';
+    protected $table = 'status_products';
     protected $primaryKey = 'id';
 }

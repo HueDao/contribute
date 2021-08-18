@@ -8,16 +8,16 @@ use App\Models\ProductsModel;
 use App\Models\CategoryModel;
 use App\Models\StatusProductModel;
 
-class ProductsController extends Controller
-{
-    
+class ProductsController extends Controller {
   public function index(Request $request) {  
     $user_id = session('contributor_login', false)['id'];
     $sort = $request->query('product_sort', "");
     $searchKeyword = $request->query('product_name', "");
     $category_id = (int) $request->query('category_id', 0);
     $queryORM = ProductsModel::where('product_name', "LIKE", "%".$searchKeyword."%")
-                ->where('user_id',$user_id);
+                ->where('user_id',$user_id)
+                ->join('status_products','status','status_products.id')
+                ->select('products.id','product_name','product_quantity','product_enpiry','product_image','product_desc','date_contribute','status_products.status_name');
     if($category_id != 0) {
       $queryORM = $queryORM->where('category_id', $category_id);
     }
@@ -35,8 +35,6 @@ class ProductsController extends Controller
     }
     $products = $queryORM->paginate(10);
     $data = [];
-    $status = StatusProductModel::all();
-    $data['status'] = $status;
     $data['products'] = $products;
     $data["searchKeyword"] = $searchKeyword;
     $data["category_id"] = $category_id;
@@ -67,8 +65,12 @@ class ProductsController extends Controller
     $product_quantity = $request->input('product_quantity', 0);
     $product_desc = $request->input('product_desc', '');
     $product_enpiry = $request->input('product_enpiry');
+    $date_contribute = $request->input('date_contribute');
     if(!$product_enpiry) {
         $product_enpiry = 'unlimited';
+    }
+    if(!$date_contribute) {
+      $date_contribute =date("Y-m-d H:i:s");
     }
     $product = new ProductsModel();
     $product->user_id = $user_id;
@@ -77,7 +79,8 @@ class ProductsController extends Controller
     $product->product_desc = $product_desc;
     $product->product_enpiry = $product_enpiry;
     $product->product_quantity = $product_quantity;
-    $product->product_image = "aa";
+    $product->date_contribute = $date_contribute;
+    $product->status = 1;
     $product->save();
     return redirect("/product/index")->with('status', 'thêm sản phẩm thành công !');
   }
@@ -97,8 +100,12 @@ class ProductsController extends Controller
     $product_quantity = $request->input('product_quantity', 0);
     $product_desc = $request->input('product_desc', '');
     $product_enpiry = $request->input('product_enpiry');
+    $date_contribute = $request->input('date_contribute');
     if(!$product_enpiry) {
         $product_enpiry = 'unlimited';
+    }
+    if(!$date_contribute) {
+      $date_contribute =date("Y-m-d H:i:s");
     }
     $product = ProductsModel::findOrFail($id);
     $product->product_name = $product_name;
@@ -106,7 +113,7 @@ class ProductsController extends Controller
     $product->product_desc = $product_desc;
     $product->product_enpiry = $product_enpiry;
     $product->product_quantity = $product_quantity;
-    $product->product_image = "aa";
+    $product->date_contribute = $date_contribute;
     $product->save();
     return redirect("/product/index")->with('status', 'cập nhật sản phẩm thành công !');
   }
@@ -129,7 +136,10 @@ class ProductsController extends Controller
 
   public function productContribute($category_id, $recipient_id) {
     $user_id = session('contributor_login', false)['id'];
-    $products = ProductsModel::where('user_id', $user_id)->where('category_id', $category_id)->get();
+    $products = ProductsModel::where('user_id', $user_id)->where('category_id', $category_id)
+                            ->join('status_products','status','status_products.id')
+                            ->select('products.id','product_name','product_quantity','product_enpiry','product_image','product_desc','date_contribute','status_products.status_name')
+                            ->get();
     $data = [];
     $data['products'] = $products;
     $data['recipient_id'] = $recipient_id;
