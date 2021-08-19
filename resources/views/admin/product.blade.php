@@ -11,7 +11,6 @@
 <body>
 
   <div class="container">
-   
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -20,12 +19,11 @@
         <ul class="nav navbar-nav">
         <li><a href="{{ url("/admin/index")}}">Home</a></li>
         <li class="active"><a href="{{ url("/admin/product")}}">Sản phẩm quyên góp</a></li>
-        <li><a href="{{ url("/admin/4")}}">Người quản lí</a></li>
-        <li><a href="{{ url("/admin/1")}}">Người quyên góp</a></li>
-        <li><a href="{{ url("/admin/2")}}">Người nhận quyên góp</a></li>
-        <li><a href="{{ url("/admin/3")}}">Người vận chuyển</a></li>
+        <li><a href="{{ url("/contributor/index/4")}}">Người quản lí</a></li>
+        <li><a href="{{ url("/contributor/index/1")}}">Người quyên góp</a></li>
+        <li><a href="{{ url("/contributor/index/2")}}">Người nhận quyên góp</a></li>
+        <li><a href="{{ url("/contributor/index/3")}}">Người vận chuyển</a></li>
         <li><a href="{{ url("/category/index")}}">Quản lí danh mục sản phẩm</a></li>
-        
         </ul>
       </div>
     </nav>

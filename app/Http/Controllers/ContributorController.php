@@ -13,11 +13,11 @@ use App\Helper\SessionHelper;
 
 class ContributorController extends Controller
 {
-  public function index(Request $request)
+  public function index(Request $request, $role)
   {
     $sort = $request->query('contributor_sort', "");
     $searchKeyword = $request->query('contributor_name', "");
-    $queryORM = ContributorModel::where('name', "LIKE", "%".$searchKeyword."%");
+    $queryORM = ContributorModel::where('name', "LIKE", "%".$searchKeyword."%")->where('role',$role);
     if ($sort == "name_asc") {
       $queryORM->orderBy('name', 'asc');
     }

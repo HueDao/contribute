@@ -25,7 +25,7 @@ Route::post('/contributor/login', [UserLoginController::class, 'login']);
 Route::get('/logout', [UserLoginController::class, 'logout']);
 
 Route::middleware(["owner"])->group(function () {
-    Route::get('/contributor/index', [ContributorController::class, 'index']);
+    Route::get('/contributor/index/{role}', [ContributorController::class, 'index']);
   
     Route::get('/contributor/edit/{id}', [ContributorController::class, 'edit']);
     Route::get('/contributor/delete/{id}', [ContributorController::class, 'delete']);
@@ -92,6 +92,7 @@ Route::middleware(["ship"])->group(function () {
 
 Route::get('/admin/index', [AdminController::class, 'index']);
 Route::get('/admin/product', [AdminController::class, 'showProduct']);
+Route::get('/admin/4', [AdminController::class, 'showAdmin']);
 
 
 
