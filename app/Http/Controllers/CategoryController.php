@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CategoryModel;
 use Illuminate\Support\Facades\DB;
 use App\Models\ProductsModel;
+use App\Helper\SessionHelper;
 
 class CategoryController extends Controller
 {
@@ -75,8 +76,8 @@ class CategoryController extends Controller
       return redirect("/category/index")->with('status', 'xóa danh mục thành công !');
     }
 
-    public function categoryContribute() {
-      $user_id = session('contributor_login', false)['id'];
+    public function categoryContribute(SessionHelper $sessionHelper) {
+        $user_id = $sessionHelper->get()["id"];
       $categories_id = ProductsModel::select('category_id')->where('user_id', $user_id)->get();
       $categories = CategoryModel::whereIn('id',$categories_id)->get();
       $data = [];

@@ -13,7 +13,7 @@
   <div class="container">
   <div style = "padding: 20px">
       <a href="{{ url("/volunteers/infor")}}" class="btn btn-info">Thông tin tài khoản</a>
-      <a style="float: right" href="{{ url("/volunteers/logout")}}" class="btn btn-info">Logout</a>
+      <a style="float: right" href="{{ url("/logout")}}" class="btn btn-info">Logout</a>
     </div>
     <h1> Danh sách sản phẩm đóng góp </h1>
     <form name="register_product" action="{{ url("/contribute")}}" method="post">

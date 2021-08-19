@@ -161,7 +161,8 @@ class ProductsController extends Controller {
     $searchKeyword = $request->query('product_name', "");
     $category_id = (int) $request->query('category_id', 0);
     $status_id = (int) $request->query('product_status', 0);
-    $queryORM = DB::table('products')
+    $queryORM = \DB::table('products')
+    
                 ->where('product_name', "LIKE", "%".$searchKeyword."%")
                 ->join('product_recipient', 'product_recipient.product_id', '=', 'products.id')
                 ->join('contributors', 'contributors.id', '=', 'products.user_id')
@@ -196,7 +197,6 @@ class ProductsController extends Controller {
     $status_filter = StatusProductModel::all();
     $data["status_filter"] = $status_filter;
     $data['stt'] = 0;
-    
     return view('products.receive', $data);
   }
 

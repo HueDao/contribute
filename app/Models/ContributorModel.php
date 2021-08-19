@@ -12,6 +12,9 @@ class ContributorModel extends Authenticatable
     const ROLE_GUEST = -1;
     const ROLE_ADMIN = 4;
     const ROLE_CONTRIBUTOR = 1;
+
+
+    
     const ROLE_RECEIVE = 2;
     const ROLE_SHIP = 3;
 

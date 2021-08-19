@@ -9,11 +9,8 @@ use App\Models\ProductsModel;
 class ProductRecipientController extends Controller
 {
     public function store(Request $request) {
-      
       try {
-        
         \DB::beginTransaction();
-        
         $recipient_id = $request->get('recipient_id');
         $loop = $request->get('product_id');
         foreach ($loop as $value){

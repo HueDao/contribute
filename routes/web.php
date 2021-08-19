@@ -7,6 +7,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContributorController;
 use App\Http\Controllers\UserLoginController;
 use App\Http\Controllers\ProductRecipientController;
+use App\Http\Controllers\ShippersController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,35 +20,39 @@ use App\Http\Controllers\ProductRecipientController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', [UserLoginController::class, 'index']);
+Route::post('/contributor/login', [UserLoginController::class, 'login']);
+Route::get('/logout', [UserLoginController::class, 'logout']);
 
 Route::middleware(["owner"])->group(function () {
     Route::get('/contributor/index', [ContributorController::class, 'index']);
-    Route::get('/contributor/create', [ContributorController::class, 'create']);
+  
     Route::get('/contributor/edit/{id}', [ContributorController::class, 'edit']);
     Route::get('/contributor/delete/{id}', [ContributorController::class, 'delete']);
-    Route::post('/contributor/store', [ContributorController::class, 'store']);
+    
     Route::post('/contributor/update/{id}', [ContributorController::class, 'update']);
     Route::post('/contributor/destroy/{id}', [ContributorController::class, 'destroy']);
 });
+Route::get('/contributor/create', [ContributorController::class, 'create']);
+Route::post('/contributor/store', [ContributorController::class, 'store']);
 
 Route::middleware(["recipient", "owner"])->group(function () {
     Route::get('/recipients/home', [ContributorController::class, 'registerHome']);
     Route::get('/recipients/register_category', [ContributorController::class, 'registerCategory']);
     Route::post('/recipients/save_register_category', [ContributorController::class, 'saveRegisterCategory']);
-    Route::get('/recipients/list/{id}', [ContributorController::class, 'listRecipient']);
+    
 });
 
 Route::middleware(["contributor", "owner"])->group(function () {
-    Route::get('/contributor/infor', [ContributorController::class, 'infor']);
+    
     Route::get('/product/index', [ProductsController::class, 'index']);
     Route::get('/product/create', [ProductsController::class, 'create']);
     Route::get('/product/edit/{id}', [ProductsController::class, 'edit']);
     Route::get('/product/delete/{id}', [ProductsController::class, 'delete']);
+    Route::get('/recipients/list/{id}', [ContributorController::class, 'listRecipient']);
 });
 
-Route::middleware(["ship", "owner"])->group(function () {
-
-});
+Route::get('/contributor/infor', [ContributorController::class, 'infor']);
 
 
 // lưu sản phẩm
@@ -66,11 +72,6 @@ Route::post('/category/update/{id}', [CategoryController::class, 'update']);
 // xóa danh mục
 Route::post('/category/destroy/{id}', [CategoryController::class, 'destroy']);
 
-Route::get('/', [UserLoginController::class, 'index']);
-Route::post('/contributor/login', [UserLoginController::class, 'login']);
-Route::get('/logout', [UserLoginController::class, 'logout']);
-
-
 Route::get('/category/contribute', [CategoryController::class, 'categoryContribute']);
 Route::get('/product/contribute/{category_id}/{recipient_id}', [ProductsController::class, 'productContribute']);
 // Quyên góp sản phẩm
@@ -82,6 +83,15 @@ Route::post('/delete/categoryRegister', [ContributorController::class, 'deleteCa
 //Chuyển trạng thái sản phẩm sang đã nhận
 Route::post('/change_status_receive', [ProductsController::class, 'changeStatusReceive']);
 
+//Hiển thị danh sách sản phẩm quyên góp cho người nhận
+Route::middleware(["ship"])->group(function () {
+    Route::get('/ship/index', [ShippersController::class, 'index']);
+    Route::post('/moving', [ShippersController::class, 'moving']);
+    Route::get('/moving_product', [ShippersController::class, 'movingProduct']);
+});
+
+Route::get('/admin/index', [AdminController::class, 'index']);
+Route::get('/admin/product', [AdminController::class, 'showProduct']);
 
 
 

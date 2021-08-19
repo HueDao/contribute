@@ -11,7 +11,7 @@
 <body>
   <div class="container">
   <div style = "padding: 20px">
-      <a href="{{ url("/volunteers/infor")}}" class="btn btn-info">Thông tin tài khoản</a>
+      <a href="{{ url("/contributor/infor")}}" class="btn btn-info">Thông tin tài khoản</a>
       <a style="float: right" href="{{ url("/logout")}}" class="btn btn-info">Logout</a>
     </div>
     <h2>Danh sách người đóng góp</h2>

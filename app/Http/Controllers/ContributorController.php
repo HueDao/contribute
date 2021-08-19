@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\ObjectsModel;
 use App\Models\CategoryModel;
 use App\Models\CategoryUserModel;
+use App\Helper\SessionHelper;
 
 class ContributorController extends Controller
 {
@@ -104,8 +105,8 @@ class ContributorController extends Controller
     return redirect("/contributor/index")->with('status', 'xóa sản phẩm thành công !');
   }
 
-  public function infor() {
-    $user_id = session('contributor_login', false)['id'];
+  public function infor(SessionHelper $sessionHelper) {
+    $user_id = $sessionHelper->get()["id"];
     $data = [];
     $role = ContributorModel::where('id', $user_id)->pluck("role");
     foreach ( $role as $r) {
@@ -123,8 +124,8 @@ class ContributorController extends Controller
   public function registerHome() {
     return view("recipients.home");
   }
-  public function registerCategory() {
-    $user_id = session('contributor_login', false)['id'];
+  public function registerCategory(SessionHelper $sessionHelper) {
+     $user_id = $sessionHelper->get()["id"];
     $categories = CategoryModel::all();
     $data["categories"] = $categories;
     $categories_registered = CategoryUserModel::join('category','category.id','=','category_user.category_id')
@@ -137,8 +138,8 @@ class ContributorController extends Controller
     return view('recipients.register_category', $data);
   }
 
-  public function saveRegisterCategory(Request $request) {
-    $user_id = session('contributor_login', false)['id'];
+  public function saveRegisterCategory(Request $request, SessionHelper $sessionHelper) {
+     $user_id = $sessionHelper->get()["id"];
     $loop = $request->get('category_id');
     $data = [];
     $categories = CategoryModel::all();
@@ -186,8 +187,8 @@ class ContributorController extends Controller
     return view('recipients.list', $data);
   }
 
-  public function deleteCategoryRegister(Request $request) {
-    $user_id = session('contributor_login', false)['id'];
+  public function deleteCategoryRegister(Request $request, SessionHelper $sessionHelper) {
+    $user_id = $sessionHelper->get()["id"];
     $loop = $request->get('category_user_id');
     if(is_null($loop)) {
       return redirect('/recipients/register_category')->with('infor', 'Chưa chọn danh mục để xóa!');
