@@ -11,25 +11,29 @@
 <body>
 
   <div class="container">
+   
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
         <a class="navbar-brand" href="#">Đóng góp</a>
         </div>
         <ul class="nav navbar-nav">
-        <li class="active"><a href="{{ url("/admin/index")}}">Home</a></li>
-        <li><a href="{{ url("/admin/product")}}">Sản phẩm quyên góp</a></li>
-        <li><a href="{{ url("/admin/admin")}}">Người quản lí</a></li>
-        <li><a href="{{ url("/admin/contributor")}}">Người quyên góp</a></li>
-        <li><a href="{{ url("/admin/recipient")}}">Người nhận quyên góp</a></li>
-        <li><a href="{{ url("/admin/shipper")}}">Người vận chuyển</a></li>
-        <li><a href="{{ url("/contributor/infor")}}" class="btn btn-info">Thông tin tài khoản</a><li>
+        <li><a href="{{ url("/admin/index")}}">Home</a></li>
+        <li class="active"><a href="{{ url("/admin/product")}}">Sản phẩm quyên góp</a></li>
+        <li><a href="{{ url("/admin/4")}}">Người quản lí</a></li>
+        <li><a href="{{ url("/admin/1")}}">Người quyên góp</a></li>
+        <li><a href="{{ url("/admin/2")}}">Người nhận quyên góp</a></li>
+        <li><a href="{{ url("/admin/3")}}">Người vận chuyển</a></li>
+        <li><a href="{{ url("/category/index")}}">Quản lí danh mục sản phẩm</a></li>
+        
         </ul>
-        <a style="float: right; padding: 10px" href="{{ url("/logout")}}" class="btn btn-info">Logout</a>
       </div>
     </nav>
-    <h2>Danh sách các sản phẩm chờ giao đến khu cách li</h2>
-    
+    <div>
+      <li><a href="{{ url("/contributor/infor")}}" class="btn btn-info">Thông tin tài khoản</a></li>
+      <a style="float: right; padding: 10px" href="{{ url("/logout")}}" class="btn btn-info">Logout</a>
+    </div>
+    <h2>Danh sách các sản phẩm/ đồ dùng</h2>
     <div style="padding: 10px; border: 1px solid #4e73df ;margin-bottom: 10px">
     <form name="search_product" method="get" action="{{ htmlspecialchars($_SERVER["REQUEST_URI"]) }}" class="form-inline">
       <input name="product_name" class="form-control" value = "{{ $searchKeyword }}" style="width: 350px; margin-right: 20px" placeholder="Nhập tên sản phẩm bạn muốn tìm kiếm ..." autocomplete="off">
@@ -105,8 +109,8 @@
               <td>{{ $p->recipient_name }}</td>
               <td>{{ $p->recipient_number_phone}}</td>
               <td>{{ $p->recipient_address }}</td>
-              <td>{{ $p->ship_name }}</td>
-              <td>{{ $p->ship_number_phone}}</td>
+              <td>{{ $p->shipper_name }}</td>
+              <td>{{ $p->shipper_number_phone}}</td>
               <td>{{ $p->status_name}}</td>
               <td>
                 <a href="{{url("/product/edit/$p->id")}}" class="btn btn-warning">Sửa</a>

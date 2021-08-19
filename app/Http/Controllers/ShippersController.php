@@ -15,7 +15,7 @@ class ShippersController extends Controller
         $sort = $request->query('product_sort', "");
         $searchKeyword = $request->query('product_name', "");
         $category_id = (int) $request->query('category_id', 0);
-        $queryORM = \DB::table('products')
+        $queryORM = \DB::table('products')->where('product_name', "LIKE", "%".$searchKeyword."%")
                 ->where('status', 2)
                 ->join('product_recipient', 'product_recipient.product_id', '=', 'products.id')
                 ->join('contributors', 'contributors.id', '=', 'products.user_id')

@@ -114,6 +114,10 @@ class ContributorController extends Controller
         $data['url'] = '/product/index';
       } elseif ($r == 2) {
         $data['url'] = '/recipients/home';
+      } elseif($r == 3) {
+        $data['url'] = '/ship/index';
+      } elseif($r === 4) {
+        $data['url'] = '/admin/index';
       }
     }
     $contributor = ContributorModel::findOrFail($user_id);

@@ -23,11 +23,14 @@
       <li><a href="{{ url("/admin/contributor")}}">Người quyên góp</a></li>
       <li><a href="{{ url("/admin/recipient")}}">Người nhận quyên góp</a></li>
       <li><a href="{{ url("/admin/shipper")}}">Người vận chuyển</a></li>
-      <li><a href="{{ url("/contributor/infor")}}" class="btn btn-info">Thông tin tài khoản</a><li>
+      <li><a href="{{ url("/category/index")}}">Quản lí danh mục sản phẩm</a></li>
+      <li><a href="{{ url("/contributor/infor")}}">Thông tin tài khoản</a><li>
     </ul>
-    <a style="float: right; padding: 10px" href="{{ url("/logout")}}" class="btn btn-info">Logout</a>
   </div>
 </nav>
+<div>
+      <a style="float: right; padding: 10px" href="{{ url("/logout")}}" class="btn btn-info">Logout</a>
+    </div>
   </div>
 </body>
 </html>
