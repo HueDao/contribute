@@ -77,8 +77,11 @@ class CategoryController extends Controller
     }
 
     public function categoryContribute(SessionHelper $sessionHelper) {
-        $user_id = $sessionHelper->get()["id"];
-      $categories_id = ProductsModel::select('category_id')->where('user_id', $user_id)->get();
+      $user_id = $sessionHelper->get()["id"];
+      $categories_id = ProductsModel::select('category_id')
+                                    ->where('user_id', $user_id)
+                                    ->where('status', 1)
+                                    ->get();
       $categories = CategoryModel::whereIn('id',$categories_id)->get();
       $data = [];
       $data['categories'] = $categories;

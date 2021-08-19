@@ -37,6 +37,18 @@ class ProductsController extends Controller {
     if ($sort == "quantity_desc") {
       $queryORM->orderBy('product_quantity', 'desc');
     }
+    if ($sort == "product_entiry_asc") {
+      $queryORM->orderBy('product_entiry', 'asc');
+    }
+    if ($sort == "product_entiry_desc") {
+      $queryORM->orderBy('product_entiry', 'desc');
+    }
+    if ($sort == "date_contribute_asc") {
+      $queryORM->orderBy('date_contribute', 'asc');
+    }
+    if ($sort == "date_contribute_desc") {
+      $queryORM->orderBy('date_contribute', 'desc');
+    }
     $products = $queryORM->paginate(10);
     $data = [];
     $data['products'] = $products;
@@ -59,20 +71,23 @@ class ProductsController extends Controller {
   }
 
   public function store(Request $request) {
-  //   $validatedData = $request->validate([
-  //     'product_name' => 'required',
-  //     'category_id' => 'required',
-  //     'product_expiry' => 'required',
-  //     'product_desc' => 'required',
-  //     'product_quantity' => 'required',
-  //  ]);
+    $validatedData = $request->validate([
+      'product_name' => 'required',
+      'category_id' => 'required|category ,id',
+      'product_expiry' => 'required',
+      'product_desc' => 'required',
+      'product_quantity' => 'required',
+      'product_contribute' => 'required',
+   ]);
     $user_id = session('contributor_login', false)['id'];
     $product_name = $request->input('product_name', '');
-    $category_id = (int) $request->input('category_id', 0);
-    $product_quantity = $request->input('product_quantity', 0);
+    $category_id = (int) $request->input('category_id', '');
+    $product_quantity = $request->input('product_quantity', '');
     $product_desc = $request->input('product_desc', '');
     $product_enpiry = $request->input('product_enpiry');
+    $product_enpiry = date('Y-m-d H:i:s');
     $date_contribute = $request->input('date_contribute');
+    $date_contribute  = date('Y-m-d H:i:s');
     if(!$product_enpiry) {
         $product_enpiry = 'unlimited';
     }
@@ -89,7 +104,7 @@ class ProductsController extends Controller {
     $product->date_contribute = $date_contribute;
     $product->status = 1;
     $product->save();
-    return redirect("/product/index")->with('status', 'thêm sản phẩm thành công !');
+    return redirect("/product/index")->with('infor', 'Thêm sản phẩm thành công !');
   }
 
   public function edit($id) {
@@ -107,7 +122,13 @@ class ProductsController extends Controller {
     $product_quantity = $request->input('product_quantity', 0);
     $product_desc = $request->input('product_desc', '');
     $product_enpiry = $request->input('product_enpiry');
+    $product_enpiry = date('Y-m-d H:i:s');
     $date_contribute = $request->input('date_contribute');
+    if(!$date_contribute) {
+      $date_contribute =date("Y-m-d H:i:s");
+    } else {
+      $date_contribute  = date('Y-m-d H:i:s');
+    }
     if(!$product_enpiry) {
         $product_enpiry = 'unlimited';
     }
@@ -122,14 +143,14 @@ class ProductsController extends Controller {
     $product->product_quantity = $product_quantity;
     $product->date_contribute = $date_contribute;
     $product->save();
-    return redirect("/product/index")->with('status', 'cập nhật sản phẩm thành công !');
+    return redirect("/product/index")->with('infor', 'Cập nhật sản phẩm thành công !');
   }
 
   public function delete($id) {
     $product = ProductsModel::findOrFail($id);
-    // truyền dữ liệu xuống view
     $data = [];
     $data["product"] = $product;
+    // truyền dữ liệu xuống view
     return view("products.delete", $data);
   }
 
@@ -137,8 +158,11 @@ class ProductsController extends Controller {
   public function destroy($id) {
     // lấy đối tượng model dựa trên biến $id
     $product = ProductsModel::findOrFail($id);
+    if($product['status'] == 3 || $product['status'] == 4) {
+      return redirect("/product/index")->with('note', 'Không thể xóa sản phẩm do sản phẩm đang được vận chuyển hoặc đã được nhận!');
+    }
     $product->delete();
-    return redirect("/product/index")->with('status', 'xóa sản phẩm thành công !');
+    return redirect("/product/index")->with('infor', 'Xóa sản phẩm thành công!');
   }
 
   public function productContribute($category_id, $recipient_id) {

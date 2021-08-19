@@ -41,10 +41,16 @@ class AdminController extends Controller
     if ($sort == "name_desc") {
       $queryORM->orderBy('product_name', 'desc');
     }
+    if ($sort == "product_entiry_asc") {
+      $queryORM->orderBy('product_entiry', 'asc');
+    }
+    if ($sort == "product_entiry_desc") {
+      $queryORM->orderBy('product_entiry', 'desc');
+    }
     if ($sort == "date_contribute_asc") {
       $queryORM->orderBy('date_contribute', 'asc');
     }
-    if ($sort == "date_contribute_des") {
+    if ($sort == "date_contribute_desc") {
       $queryORM->orderBy('date_contribute', 'desc');
     }
     $products = $queryORM->get();       

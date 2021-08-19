@@ -11,8 +11,16 @@
 <body>
 
 <div class="container">
-  <h2>Thêm sản phẩm đóng góp</h2>   
-<br></br>
+<h2>Thêm sản phẩm đóng góp</h2>   
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <form name="product" action="{{ url("/product/store")}}" method="post" enctype="mutipart/form-data">
   @csrf
   <div class="form-group">
@@ -22,7 +30,7 @@
   <div class="form-group">
     <label >Danh mục sản phẩm đóng góp:</label>
     <select name="category_id">
-      <option>--Chọn danh mục--</option>
+      <option value="">--Chọn danh mục--</option>
           @foreach ($categories as $category)
       <option value="{{ $category->id }}">{{ $category->category_name }}</option>
           @endforeach

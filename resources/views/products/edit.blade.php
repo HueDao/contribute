@@ -34,7 +34,7 @@
   </div>
   <div class="form-group">
     <label>Hạn sử dụng</label>
-    <input type="text" class="form-control" id="product_enpiry" name="product_enpiry" value="{{ $product->product_enpiry}}">
+    <input type="text" class="form-control" id="product_enpiry" name="product_enpiry" value="{{ date('d-m-Y', strtotime($product->product_enpiry)) }}">
   </div>
   <div class="form-group">
     <label>Mô tả</label>
@@ -42,7 +42,7 @@
   </div>
   <div class="form-group">
     <label>Ngày có thể quyên góp</label>
-    <input type="text" class="form-control" id="date_contribute" name="date_contribute" value="{{ $product->date_contribute}}">
+    <input type="text" class="form-control" id="date_contribute" name="date_contribute" value="{{ date('d-m-Y', strtotime($product->date_contribute))}}">
   </div>
   <button type="submit" class="btn btn-primary">Cập nhật sản phẩm</button>
 </form>

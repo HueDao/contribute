@@ -16,6 +16,16 @@
       <a style="float: right" href="{{ url("/logout")}}" class="btn btn-info">Logout</a>
     </div>
     <h2>Danh sách đóng góp</h2>
+    @if (session('infor'))
+        <div class="alert alert-success">
+            {{ session('infor') }}
+          </div>
+    @endif
+    @if (session('note'))
+        <div class="alert alert-danger">
+            {{ session('note') }}
+          </div>
+    @endif
     <div style="padding: 10px; border: 1px solid #4e73df ;margin-bottom: 10px">
     <form name="search_product" method="get" action="{{ htmlspecialchars($_SERVER["REQUEST_URI"]) }}" class="form-inline">
       <input name="product_name" class="form-control" value = "{{ $searchKeyword }}" style="width: 350px; margin-right: 20px" placeholder="Nhập tên sản phẩm bạn muốn tìm kiếm ..." autocomplete="off">
@@ -37,6 +47,10 @@
         <option value="name_desc" {{ $sort == "name_desc" ? " selected" : "" }}>Tên Z-A</option>
         <option value="quantity_asc" {{ $sort == "quantity_asc" ? " selected" : "" }}>Số lượng đóng góp tăng dần</option>
         <option value="quantity_desc" {{ $sort == "quantity_desc" ? " selected" : "" }}>Số lượng đóng góp giảm dần</option>
+        <option value="date_contribute_asc" {{ $sort == "date_contribute_asc" ? " selected" : "" }}>Ngày đóng góp tăng dần</option>
+        <option value="date_contribute_desc" {{ $sort == "date_contribute_desc" ? " selected" : "" }}>Ngày đóng góp giảm dần</option>
+        <option value="product_enpiry_asc" {{ $sort == "product_enpiry_asc" ? " selected" : "" }}>Hạn sử dụng tăng dần</option>
+        <option value="product_enpiry_desc" {{ $sort == "product_enpiry_desc" ? " selected" : "" }}>Hạn sử dụng giảm dần</option>
       </select>
       <input type="submit" name="search" class="btn btn-success" value="Lọc kết quả">
     </form>
@@ -65,9 +79,9 @@
               <td>{{ ++$stt}}</td>
               <td>{{ $p->product_name }}</td>
               <td>{{ $p->product_quantity }}</td>
-              <td>{{ $p->product_enpiry }}</td>
+              <td>{{date('d-m-Y', strtotime($p->product_enpiry))}}</td>
               <td>{{ $p->product_desc }}</td>
-              <td>{{ $p->date_contribute}}</td>
+              <td>{{date('d-m-Y', strtotime($p->date_contribute))}}</td>
               <td>{{ $p->status_name}}</td>
               <td>
                 <a href="{{url("/product/edit/$p->id")}}" class="btn btn-warning">Sửa sản phẩm</a>
