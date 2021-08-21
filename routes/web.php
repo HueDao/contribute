@@ -35,6 +35,7 @@ Route::middleware(["owner"])->group(function () {
     Route::get('/admin/index', [AdminController::class, 'index']);
     Route::get('/admin/product', [AdminController::class, 'showProduct']);
 
+    Route::get('/category/index', [CategoryController::class, 'index']);
     Route::get('/category/create', [CategoryController::class, 'create']);
     Route::get('/category/edit/{id}', [CategoryController::class, 'edit']);
     Route::get('/category/delete/{id}', [CategoryController::class, 'delete']);

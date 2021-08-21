@@ -11,6 +11,22 @@
 <body>
 
 <div class="container">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+        <a class="navbar-brand" href="#">Đóng góp</a>
+        </div>
+        <ul class="nav navbar-nav">
+        <li ><a href="{{ url("/admin/product")}}">Sản phẩm quyên góp</a></li>
+        <li><a href="{{ url("/contributor/index/4")}}">Người quản lí</a></li>
+        <li><a href="{{ url("/contributor/index/1")}}">Người quyên góp</a></li>
+        <li><a href="{{ url("/contributor/index/2")}}">Người nhận quyên góp</a></li>
+        <li><a href="{{ url("/contributor/index/3")}}">Người vận chuyển</a></li>
+        <li><a href="{{ url("/contributor/index/5")}}">Quản lí kho</a></li>
+        <li class="active"><a href="{{ url("/category/index")}}">Quản lí danh mục sản phẩm</a></li>
+        </ul>
+      </div>
+    </nav>
   <h2>Danh mục sản phẩm cần đóng góp</h2>   
   <div style = "padding: 20px">
     <a href="{{ url("/category/create")}}" class="btn btn-info">Thêm danh mục</a>

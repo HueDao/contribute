@@ -29,6 +29,7 @@ class ContributorController extends Controller
     $data['contributors'] = $contributors;
     $data["searchKeyword"] = $searchKeyword;
     $data["sort"] = $sort;
+    $data['role'] = $role;
     return view('contributors.index', $data);
   }
 

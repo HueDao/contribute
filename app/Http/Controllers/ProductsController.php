@@ -149,7 +149,7 @@ class ProductsController extends Controller {
   public function destroy($id) {
     // lấy đối tượng model dựa trên biến $id
     $product = ProductsModel::findOrFail($id);
-    if($product['status'] == 3 || $product['status'] == 4) {
+    if($product['status'] !== 1 || $product['status'] !== 2) {
       return redirect("/product/index")->with('note', 'Không thể xóa sản phẩm do sản phẩm đang được vận chuyển hoặc đã được nhận!');
     }
     $product->delete();
