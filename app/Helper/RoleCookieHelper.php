@@ -50,6 +50,14 @@ class RoleCookieHelper
     }
 
     /**
+     * @return bool
+     */
+    public function isStoreRole(): bool
+    {
+        return $this->getRole() === ContributorModel::ROLE_STORE;
+    }
+
+    /**
      * @return int
      */
     public function getRole(): int

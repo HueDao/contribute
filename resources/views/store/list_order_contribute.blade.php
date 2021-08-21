@@ -16,11 +16,11 @@
         <a class="navbar-brand" href="#">Đóng góp</a>
         </div>
         <ul class="nav navbar-nav">
-        <li ><a href="{{ url("")}}">Home</a></li>
-        <li class="active"><a href="{{ url("/ship/index")}}">Danh sách đơn chờ lấy</a></li>
-        <li ><a href="{{ url("/ship/list_wait_delivery")}}">Danh sách đơn chờ giao</a></li>
-        <li ><a href="{{ url("/ship/order_receive")}}">Danh sách đơn lấy đã nhận</a></li>
-        <li><a href="{{ url("/ship/order_delivery_receive")}}">Danh sách đơn giao đã nhận</a></li>
+        <li><a href="{{ url("/admin/index")}}">Home</a></li>
+        <li ><a href="{{ url("/order/index")}}">Tạo đơn lấy hàng</a></li>
+        <li><a href="{{ url("/order/index_delivery")}}">Tạo đơn giao hàng</a></li>
+        <li  class="active"><a href="{{ url("/list_order_contributor")}}">Đơn lấy hàng</a></li>
+        <li><a href="{{ url("/list_order_delivery")}}">Đơn giao hàng</a></li>
         </ul>
       </div>
     </nav>
@@ -28,7 +28,7 @@
       <a href="{{ url("/contributor/infor")}}" class="btn btn-info">Thông tin tài khoản</a>
       <a style="float: right" href="{{ url("/logout")}}" class="btn btn-info">Logout</a>
     </div>
-    <h2>Danh sách các đơn hàng chờ giao đến khu cách li</h2>
+    <h2>Danh sách các đơn lấy hàng quyên góp</h2>
     @if (session('infor'))
       <div class="alert alert-success">
           {{ session('infor') }}
@@ -58,7 +58,7 @@
               <td>{{date('d-m-Y', strtotime($order->created_at))}}</td>
               <td>{{ $order->order_status_name}}</td>
               <td>
-                <a href="{{url("/order_detail/$order->id")}}" class="btn btn-warning">Xem chi tiết đơn hàng</a>
+                <a href="{{url("/store/order_detail_contributor/$order->id")}}" class="btn btn-warning">Xem chi tiết đơn hàng</a>
               </td>
             </tr>
           @endforeach

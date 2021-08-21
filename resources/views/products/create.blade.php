@@ -30,7 +30,7 @@
   <div class="form-group">
     <label >Danh mục sản phẩm đóng góp:</label>
     <select name="category_id">
-      <option value="">--Chọn danh mục--</option>
+      <option value="0">--Chọn danh mục--</option>
           @foreach ($categories as $category)
       <option value="{{ $category->id }}">{{ $category->category_name }}</option>
           @endforeach
@@ -45,7 +45,7 @@
     <input type="text" class="form-control" id="product_enpiry" name="product_enpiry">
   </div>
   <div class="form-group">
-    <label>Mô tả</label>
+    <label>Mô tả(đơn vị)</label>
     <textarea class="form-control" id="product_desc" name="product_desc"></textarea>
   </div>
   <div class="form-group">
@@ -53,6 +53,7 @@
     <input type="text" class="form-control" id="date_contribute" name="date_contribute">
   </div>
   <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
+  <a style="float: right" href="{{ url("/product/index")}}" class="btn btn-primary">Hủy</a>
 </form>
 </div>
 </body>
@@ -62,10 +63,10 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
   $( function() {
-    $( "#product_enpiry" ).datepicker({ dateFormat: 'dd/mm/yy' });
+    $( "#product_enpiry" ).datepicker({ dateFormat: 'mm/dd/yy' });
   } );
   $( function() {
-    $( "#date_contribute" ).datepicker({ dateFormat: 'dd/mm/yy' });
+    $( "#date_contribute" ).datepicker({ dateFormat: 'mm/dd/yy' });
   } );
   </script>
 

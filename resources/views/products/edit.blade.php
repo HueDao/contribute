@@ -11,8 +11,16 @@
 <body>
 
 <div class="container">
-  <h2>Thêm sản phẩm đóng góp</h2>   
-<br></br>
+  <h2>Sửa sản phẩm đóng góp</h2>   
+  @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+  @endif
 <form name="product" action="{{ url("/product/update/$product->id") }}" method="post" enctype="mutipart/form-data">
     @csrf
   <div class="form-group">
@@ -34,17 +42,18 @@
   </div>
   <div class="form-group">
     <label>Hạn sử dụng</label>
-    <input type="text" class="form-control" id="product_enpiry" name="product_enpiry" value="{{ date('d-m-Y', strtotime($product->product_enpiry)) }}">
+    <input type="text" class="form-control" id="product_enpiry" name="product_enpiry" value="{{ date('m/d/Y', strtotime($product->product_enpiry)) }}">
   </div>
   <div class="form-group">
-    <label>Mô tả</label>
+    <label>Mô tả(đơn vị)</label>
     <input type='text' class="form-control" id="product_desc" name="product_desc" value="{{ $product->product_desc}}"/>
   </div>
   <div class="form-group">
     <label>Ngày có thể quyên góp</label>
-    <input type="text" class="form-control" id="date_contribute" name="date_contribute" value="{{ date('d-m-Y', strtotime($product->date_contribute))}}">
+    <input type="text" class="form-control" id="date_contribute" name="date_contribute" value="{{ date('m/d/Y', strtotime($product->date_contribute))}}">
   </div>
   <button type="submit" class="btn btn-primary">Cập nhật sản phẩm</button>
+  <a style="float: right" href="{{ url("/product/index")}}" class="btn btn-primary">Hủy</a>
 </form>
 </div>
 </body>
@@ -54,9 +63,9 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
       $( function() {
-        $( "#product_enpiry" ).datepicker({ dateFormat: 'dd/mm/yy' });
+        $( "#product_enpiry" ).datepicker({ dateFormat: 'mm/dd/yy' });
       } );
       $( function() {
-        $( "#date_contribute" ).datepicker({ dateFormat: 'dd/mm/yy' });
+        $( "#date_contribute" ).datepicker({ dateFormat: 'mm/dd/yy' });
       } );
   </script>

@@ -9,6 +9,7 @@ use App\Http\Controllers\UserLoginController;
 use App\Http\Controllers\ProductRecipientController;
 use App\Http\Controllers\ShippersController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\StoreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,7 +50,7 @@ Route::post('/contributor/store', [ContributorController::class, 'store']);
 
 Route::middleware(["recipient", "owner"])->group(function () {
     Route::get('/recipients/home', [ContributorController::class, 'registerHome']);
-    
+    Route::get('/products/receive', [ProductsController::class, 'receive']);
     Route::get('/recipients/register_category', [ContributorController::class, 'registerCategory']);
     Route::post('/recipients/save_register_category', [ContributorController::class, 'saveRegisterCategory']);
     Route::post('/delete/categoryRegister', [ContributorController::class, 'deleteCategoryRegister']);
@@ -72,7 +73,7 @@ Route::middleware(["contributor", "owner"])->group(function () {
     Route::get('/product/contribute/{category_id}/{recipient_id}', [ProductsController::class, 'productContribute']);
     Route::post('/contribute', [ProductRecipientController::class, 'store']);
 
-    Route::get('/products/receive', [ProductsController::class, 'receive']);
+    
 });
 
 Route::get('/contributor/infor', [ContributorController::class, 'infor']);
@@ -101,10 +102,31 @@ Route::get('/contributor/infor', [ContributorController::class, 'infor']);
 //Hiển thị danh sách sản phẩm quyên góp cho người nhận
 Route::middleware(["ship"])->group(function () {
     Route::get('/ship/index', [ShippersController::class, 'index']);
-    Route::post('/moving', [ShippersController::class, 'moving']);
+    Route::post('/ship_receive_order', [ShippersController::class, 'shipReceiveOrder']);
     Route::get('/moving_product', [ShippersController::class, 'movingProduct']);
-    
+    Route::get('/order_detail/{id}', [ShippersController::class, 'orderDetail']);
+    Route::get('/ship/order_receive', [ShippersController::class, 'orderReceive']);
+    // Route::post('/ship_receive_order_cancel', [ShippersController::class, 'shipReceiveOrderCancel']);
+    Route::get('/ship/list_wait_delivery', [ShippersController::class, 'getListOrderWaitDelivery']);
 });
+
+Route::get('/order/index', [StoreController::class, 'index']);
+Route::post('/create_order/{type}', [StoreController::class, 'orderCreate']);
+Route::get('/order/index_delivery', [StoreController::class, 'indexDelivery']);
+// Route::post('/create_order/{type}', [StoreController::class, 'orderCreateDelivery']);
+//Lấy danh sách đơn lấy hàng
+Route::get('/list_order_contributor', [StoreController::class, 'listOrderContribute']);
+//Lấy danh sách đơn nhận hàng
+Route::get('/list_order_delivery', [StoreController::class, 'listOrderDelivery']);
+//Chi tiết đơn nhận hàng
+Route::get('/store/order_detail_contributor/{id}', [StoreController::class, 'orderDetailContributor']);
+// Chi tiết đơn giao hàng
+Route::get('/store/order_detail_delivery/{id}', [StoreController::class, 'orderDetailDelivery']);
+//nhập kho
+Route::post('/import_store', [StoreController::class, 'importStore']);
+
+// ship
+
 
 
 

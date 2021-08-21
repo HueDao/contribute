@@ -44,6 +44,9 @@ class RouterRoleHelper
             case ContributorModel::ROLE_ADMIN:
                 $router = RouteConstant::PAGE_ADMIN_AFTER_LOGIN;
                 break;
+            case ContributorModel::ROLE_STORE:
+                $router = RouteConstant::PAGE_STORE_AFTER_LOGIN;
+                break;
             default:
                 $router = RouteConstant::PAGE_ADMIN_DEFAULT;
                 break;

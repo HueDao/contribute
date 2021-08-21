@@ -6,18 +6,21 @@ use Illuminate\Http\Request;
 use App\Models\ProductsModel;
 use App\Models\CategoryModel;
 use App\Models\StatusProductModel;
+use App\Helper\SessionHelper;
 
 class ProductsController extends Controller {
-  public function index(Request $request) {
-    $user_id = session('contributor_login', false)['id'];
+  public function index(Request $request, SessionHelper $sessionHelper) {
+    $user_id = $sessionHelper->get()["id"];
     $sort = $request->query('product_sort', "");
     $searchKeyword = $request->query('product_name', "");
     $category_id = (int) $request->query('category_id', 0);
     $status_id = (int) $request->query('product_status', 0);
     $queryORM = ProductsModel::where('product_name', "LIKE", "%".$searchKeyword."%")
                 ->where('user_id',$user_id)
+                ->join('category','category.id','=','category_id')
                 ->join('status_products','status','status_products.id')
-                ->select('products.id','product_name','product_quantity','product_enpiry','product_image','product_desc','date_contribute','status_products.status_name');
+                ->orderBy('products.created_at', 'desc')
+                ->select('products.id','product_name','product_quantity','product_enpiry','product_desc','date_contribute','status_products.status_name','category.category_name');
     if($category_id != 0) {
       $queryORM = $queryORM->where('category_id', $category_id);
     }
@@ -26,7 +29,7 @@ class ProductsController extends Controller {
     }
 
     if ($sort == "name_asc") {
-      $queryORM->orderBy('product_name', 'asc');
+      $queryORM = $queryORM->orderBy('product_name', 'asc');
     }
     if ($sort == "name_desc") {
       $queryORM->orderBy('product_name', 'desc');
@@ -70,38 +73,30 @@ class ProductsController extends Controller {
     return view("products.create", $data);
   }
 
-  public function store(Request $request) {
+  public function store(Request $request, SessionHelper $sessionHelper) {
     $validatedData = $request->validate([
       'product_name' => 'required',
-      'category_id' => 'required|category ,id',
-      'product_expiry' => 'required',
+      'category_id' => 'required|not_in:0',
       'product_desc' => 'required',
-      'product_quantity' => 'required',
-      'product_contribute' => 'required',
+      'product_quantity' => 'required|integer|min:1|not_in:0',
+      'date_contribute' =>  ['required', 'date_format:m/d/Y', 'before_or_equal:product_enpiry'],
+      'product_enpiry'  => ['required', 'date_format:m/d/Y']
    ]);
-    $user_id = session('contributor_login', false)['id'];
+    $user_id = $sessionHelper->get()["id"];
     $product_name = $request->input('product_name', '');
     $category_id = (int) $request->input('category_id', '');
     $product_quantity = $request->input('product_quantity', '');
     $product_desc = $request->input('product_desc', '');
-    $product_enpiry = $request->input('product_enpiry');
-    $product_enpiry = date('Y-m-d H:i:s');
-    $date_contribute = $request->input('date_contribute');
-    $date_contribute  = date('Y-m-d H:i:s');
-    if(!$product_enpiry) {
-        $product_enpiry = 'unlimited';
-    }
-    if(!$date_contribute) {
-      $date_contribute =date("Y-m-d H:i:s");
-    }
+    $product_enpiry = $request->input('product_enpiry','');
+    $date_contribute = $request->input('date_contribute', '');
     $product = new ProductsModel();
     $product->user_id = $user_id;
     $product->product_name = $product_name;
     $product->category_id = $category_id;
     $product->product_desc = $product_desc;
-    $product->product_enpiry = $product_enpiry;
+    $product->product_enpiry = date('Y-m-d H:i:s', strtotime($product_enpiry));
     $product->product_quantity = $product_quantity;
-    $product->date_contribute = $date_contribute;
+    $product->date_contribute =  date('Y-m-d H:i:s', strtotime($date_contribute));
     $product->status = 1;
     $product->save();
     return redirect("/product/index")->with('infor', 'Thêm sản phẩm thành công !');
@@ -117,31 +112,27 @@ class ProductsController extends Controller {
   }
 
   public function update(Request $request, $id) {
+    $validatedData = $request->validate([
+      'product_name' => 'required',
+      'category_id' => 'required|not_in:0',
+      'product_desc' => 'required',
+      'product_quantity' => 'required|integer|min:1|not_in:0',
+      'date_contribute' =>  ['required', 'date_format:m/d/Y', 'before_or_equal:product_enpiry'],
+      'product_enpiry'  => ['required', 'date_format:m/d/Y']
+   ]);
     $product_name = $request->input('product_name', '');
     $category_id = (int) $request->input('category_id', 0);
     $product_quantity = $request->input('product_quantity', 0);
     $product_desc = $request->input('product_desc', '');
-    $product_enpiry = $request->input('product_enpiry');
-    $product_enpiry = date('Y-m-d H:i:s');
-    $date_contribute = $request->input('date_contribute');
-    if(!$date_contribute) {
-      $date_contribute =date("Y-m-d H:i:s");
-    } else {
-      $date_contribute  = date('Y-m-d H:i:s');
-    }
-    if(!$product_enpiry) {
-        $product_enpiry = 'unlimited';
-    }
-    if(!$date_contribute) {
-      $date_contribute =date("Y-m-d H:i:s");
-    }
+    $product_enpiry = $request->input('product_enpiry', '');
+    $date_contribute = $request->input('date_contribute', '');
     $product = ProductsModel::findOrFail($id);
     $product->product_name = $product_name;
     $product->category_id = $category_id;
     $product->product_desc = $product_desc;
-    $product->product_enpiry = $product_enpiry;
+    $product->product_enpiry = date('Y-m-d H:i:s', strtotime($product_enpiry));
     $product->product_quantity = $product_quantity;
-    $product->date_contribute = $date_contribute;
+    $product->date_contribute = date('Y-m-d H:i:s', strtotime($date_contribute));
     $product->save();
     return redirect("/product/index")->with('infor', 'Cập nhật sản phẩm thành công !');
   }
@@ -165,12 +156,12 @@ class ProductsController extends Controller {
     return redirect("/product/index")->with('infor', 'Xóa sản phẩm thành công!');
   }
 
-  public function productContribute($category_id, $recipient_id) {
-    $user_id = session('contributor_login', false)['id'];
+  public function productContribute(SessionHelper $sessionHelper, $category_id, $recipient_id) {
+    $user_id = $sessionHelper->get()["id"];
     $products = ProductsModel::where('user_id', $user_id)->where('category_id', $category_id)
                             ->join('status_products','status','status_products.id')
                             ->where('status_products.id', 1)
-                            ->select('products.id','product_name','product_quantity','product_enpiry','product_image','product_desc','date_contribute','status_products.status_name')
+                            ->select('products.id','product_name','product_quantity','product_enpiry','product_desc','date_contribute','status_products.status_name')
                             ->get();
     $data = [];
     $data['products'] = $products;

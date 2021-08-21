@@ -15,7 +15,12 @@
       <a href="{{ url("/volunteers/infor")}}" class="btn btn-info">Thông tin tài khoản</a>
       <a style="float: right" href="{{ url("/logout")}}" class="btn btn-info">Logout</a>
     </div>
-    <h1> Danh sách sản phẩm đóng góp </h1>
+    <h1> Danh sách sản phẩm muốn đóng góp </h1>
+    @if (session('note'))
+        <div class="alert alert-danger">
+            {{ session('note') }}
+          </div>
+    @endif
     <form name="register_product" action="{{ url("/contribute")}}" method="post">
       @csrf
       <table class="table table-bordered">

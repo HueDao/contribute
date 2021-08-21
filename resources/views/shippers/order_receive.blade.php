@@ -17,9 +17,9 @@
         </div>
         <ul class="nav navbar-nav">
         <li ><a href="{{ url("")}}">Home</a></li>
-        <li class="active"><a href="{{ url("/ship/index")}}">Danh sách đơn chờ lấy</a></li>
+        <li ><a href="{{ url("/ship/index")}}">Danh sách đơn chờ lấy</a></li>
         <li ><a href="{{ url("/ship/list_wait_delivery")}}">Danh sách đơn chờ giao</a></li>
-        <li ><a href="{{ url("/ship/order_receive")}}">Danh sách đơn lấy đã nhận</a></li>
+        <li class="active"><a href="{{ url("/ship/order_receive")}}">Danh sách đơn lấy đã nhận</a></li>
         <li><a href="{{ url("/ship/order_delivery_receive")}}">Danh sách đơn giao đã nhận</a></li>
         </ul>
       </div>
@@ -28,7 +28,7 @@
       <a href="{{ url("/contributor/infor")}}" class="btn btn-info">Thông tin tài khoản</a>
       <a style="float: right" href="{{ url("/logout")}}" class="btn btn-info">Logout</a>
     </div>
-    <h2>Danh sách các đơn hàng chờ giao đến khu cách li</h2>
+    <h2>Đơn hàng của bạn</h2>
     @if (session('infor'))
       <div class="alert alert-success">
           {{ session('infor') }}

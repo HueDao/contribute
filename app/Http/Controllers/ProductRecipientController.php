@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ProductRecipientModel;
 use App\Models\ProductsModel;
+use Illuminate\Support\Facades\Redirect;
 
 class ProductRecipientController extends Controller
 {
@@ -13,6 +14,9 @@ class ProductRecipientController extends Controller
         \DB::beginTransaction();
         $recipient_id = $request->get('recipient_id');
         $loop = $request->get('product_id');
+        if(is_null($loop)) {
+          return Redirect::back()->with('note', 'Chưa chọn sản phẩm để đóng góp!');
+        }
         foreach ($loop as $value){
           $product = ProductsModel::where('id', $value)->update(['status'=>2]);
           $product_recipient = new ProductRecipientModel;
@@ -24,6 +28,6 @@ class ProductRecipientController extends Controller
         } catch (Throwable $e) {
             \DB::rollback();
         }
-      return redirect('/product/index');
+      return redirect('/product/index')->with('infor', 'Đóng góp thành công!');
     }
 }

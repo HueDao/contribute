@@ -9,23 +9,26 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-
   <div class="container">
+  <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+        <a class="navbar-brand" href="#">Đóng góp</a>
+        </div>
+        <ul class="nav navbar-nav">
+        <li><a href="{{ url("/admin/index")}}">Home</a></li>
+        <li><a href="{{ url("/order/index")}}">Tạo đơn lấy hàng</a></li>
+        <li class="active"><a href="{{ url("/order/index_delivery")}}">Tạo đơn giao hàng</a></li>
+        <li><a href="{{ url("/list_order_contributor")}}">Đơn lấy hàng</a></li>
+        <li><a href="{{ url("/list_order_delivery")}}">Đơn giao hàng</a></li>
+        </ul>
+      </div>
+    </nav>
     <div style = "padding: 20px">
       <a href="{{ url("/contributor/infor")}}" class="btn btn-info">Thông tin tài khoản</a>
       <a style="float: right" href="{{ url("/logout")}}" class="btn btn-info">Logout</a>
     </div>
-    <h2>Danh sách đóng góp</h2>
-    @if (session('infor'))
-        <div class="alert alert-success">
-            {{ session('infor') }}
-          </div>
-    @endif
-    @if (session('note'))
-        <div class="alert alert-danger">
-            {{ session('note') }}
-          </div>
-    @endif
+    <h2>Danh sách các sản phẩm chờ tạo đơn giao hàng</h2>
     <div style="padding: 10px; border: 1px solid #4e73df ;margin-bottom: 10px">
     <form name="search_product" method="get" action="{{ htmlspecialchars($_SERVER["REQUEST_URI"]) }}" class="form-inline">
       <input name="product_name" class="form-control" value = "{{ $searchKeyword }}" style="width: 350px; margin-right: 20px" placeholder="Nhập tên sản phẩm bạn muốn tìm kiếm ..." autocomplete="off">
@@ -35,42 +38,45 @@
         <option value="{{ $category->id }}">{{ $category->category_name }}</option>
         @endforeach
       </select>
-      <select name="product_status" class="form-control" style="width: 150px; margin-right: 20px">
-        <option>--Chọn trạng thái--</option>
-        @foreach ($status as $s)
-        <option value="{{ $s->id }}">{{ $s->status_name }}</option>
-        @endforeach
-      </select>
       <select name="product_sort" class="form-control" style="width: 150px; margin-right: 20px">
         <option value="">Sắp xếp</option>
         <option value="name_asc" {{ $sort == "name_asc" ? " selected" : "" }}>Tên A-Z</option>
         <option value="name_desc" {{ $sort == "name_desc" ? " selected" : "" }}>Tên Z-A</option>
-        <option value="quantity_asc" {{ $sort == "quantity_asc" ? " selected" : "" }}>Số lượng đóng góp tăng dần</option>
-        <option value="quantity_desc" {{ $sort == "quantity_desc" ? " selected" : "" }}>Số lượng đóng góp giảm dần</option>
         <option value="date_contribute_asc" {{ $sort == "date_contribute_asc" ? " selected" : "" }}>Ngày đóng góp tăng dần</option>
         <option value="date_contribute_desc" {{ $sort == "date_contribute_desc" ? " selected" : "" }}>Ngày đóng góp giảm dần</option>
-        <option value="product_enpiry_asc" {{ $sort == "product_enpiry_asc" ? " selected" : "" }}>Hạn sử dụng tăng dần</option>
-        <option value="product_enpiry_desc" {{ $sort == "product_enpiry_desc" ? " selected" : "" }}>Hạn sử dụng giảm dần</option>
       </select>
       <input type="submit" name="search" class="btn btn-success" value="Lọc kết quả">
     </form>
   </div>
-    <div style = "padding: 20px">
-      <a href="{{ url("/product/create")}}" class="btn btn-info">Thêm sản phẩm đóng góp</a>
-      <a style="float: right" href="{{ url("/category/contribute")}}" class="btn btn-info">Đóng góp</a>
-    </div>
+    @if (session('infor'))
+      <div class="alert alert-success">
+          {{ session('infor') }}
+      </div>
+    @endif
+    @if (session('error'))
+      <div class="alert alert-danger">
+          {{ session('error') }}
+      </div>
+    @endif
+    <form name="delete_register_category" action="{{ url("/create_order/2")}}" method="post">
+    @csrf
     <table class="table table-bordered">
       <thead>
         <tr>
           <th>STT</th>
-          <th>Tên sản phẩm đóng góp</th>
-          <th>Loại danh mục sản phẩm</th>
+          <th>Tên sản phẩm/ đồ dùng</th>
           <th>Số lượng</th>
-          <th>Mô tả(đơn vị)</th>
           <th>Hạn sử dụng</th>
-          <th>Ngày có thể quyên góp</th>
+          <th>Mô tả</th>
+          <th>Ngày quyên góp</th>
+          <th>Cá nhân/ tổ chức quyên góp</th>
+          <th>SĐT quyên góp </th>
+          <th>Địa chỉ của cá nhân/ tổ chức</th>
+          <th>Tổ chức nhận quyên góp</th>
+          <th>SĐT nhận quyên góp </th>
+          <th>Địa chỉ của cá nhân/ tổ chức</th>
           <th>Trạng thái sản phẩm</th>
-          <th>Hành động</th>
+          <th>Đang giao hàng</th>
         </tr>
       </thead>
       <tbody>
@@ -79,15 +85,19 @@
             <tr>
               <td>{{ ++$stt}}</td>
               <td>{{ $p->product_name }}</td>
-              <td>{{ $p->category_name }}</td>
               <td>{{ $p->product_quantity }}</td>
-              <td>{{ $p->product_desc }}</td>
               <td>{{date('d-m-Y', strtotime($p->product_enpiry))}}</td>
+              <td>{{ $p->product_desc }}</td>
               <td>{{date('d-m-Y', strtotime($p->date_contribute))}}</td>
+              <td>{{ $p->name }}</td>
+              <td>{{ $p->number_phone}}</td>
+              <td>{{ $p->address }}</td>
+              <td>{{ $p->recipient_name }}</td>
+              <td>{{ $p->recipient_number_phone}}</td>
+              <td>{{ $p->recipient_address }}</td>
               <td>{{ $p->status_name}}</td>
               <td>
-                <a href="{{url("/product/edit/$p->id")}}" class="btn btn-warning">Sửa sản phẩm</a>
-                <a href="{{url("/product/delete/$p->id")}}" class="btn btn-danger">Xóa sản phẩm</a>
+                <input type="checkbox" value="{{$p->id}}" name="product_id[]">
               </td>
             </tr>
           @endforeach
@@ -96,7 +106,10 @@
         @endif
       </tbody>
     </table>
-    {{ $products->links() }}
+    <div style = "padding: 20px">
+      <button type="submit" class="btn btn-primary">Tạo đơn</button>
+    </div>
+  </form>
   </div>
 </body>
 </html>

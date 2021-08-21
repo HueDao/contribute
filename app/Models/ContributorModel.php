@@ -12,11 +12,9 @@ class ContributorModel extends Authenticatable
     const ROLE_GUEST = -1;
     const ROLE_ADMIN = 4;
     const ROLE_CONTRIBUTOR = 1;
-
-
-    
     const ROLE_RECEIVE = 2;
     const ROLE_SHIP = 3;
+    const ROLE_STORE = 5;
 
     /**
      * Role Field table
@@ -34,25 +32,6 @@ class ContributorModel extends Authenticatable
         'name',
         'email',
         'password',
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
     ];
 
     public function categoryUsers()

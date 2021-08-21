@@ -49,6 +49,14 @@ class RoleSessionHelper
         return $this->getRole() === ContributorModel::ROLE_SHIP;
     }
 
+     /**
+     * @return bool
+     */
+    public function isStoreRole(): bool
+    {
+        return $this->getRole() === ContributorModel::ROLE_SRORE;
+    }
+
     /**
      * @return int
      */
