@@ -15,6 +15,7 @@
 <body class="text-center">
 
 <main class="form-signin">
+    
     <div class="form-floating mb-5 msg-error">
         @if($errors->any())
             {{ implode('', $errors->all(':message')) }}
@@ -23,7 +24,11 @@
     <form name="contributor_login" action="{{ url('/contributor/login')}}" method="post">
         @csrf
         <h1 class="h-100 mb-3 fw-normal">Sign in</h1>
-
+        @if (session('infor'))
+            <div class="alert alert-success">
+                {{ session('infor') }}
+            </div>
+        @endif
         <div class="form-floating">
             <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
             <label for="floatingInput">Email address</label>

@@ -11,7 +11,16 @@
 <body>
 
 <div class="container">
-  <h2>Đăng kí người đóng góp</h2>   
+  <h2>Đăng kí người dùng</h2> 
+  @if ($errors->any())
+    <div class="alert alert-danger">
+      <ul>
+          @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+          @endforeach
+      </ul>
+    </div>
+  @endif  
   <form name="category" action="{{ url("/contributor/store") }}" method="post">
       @csrf
       <div class="form-group">
@@ -25,7 +34,7 @@
       <div class="form-group">
         <label >Đối tượng đóng:</label>
         <select name="role">
-        <option value="0">--Chọn đối tượng đóng góp--</option>
+        <option value="0">--Chọn đối tượng--</option>
             @foreach ($objects as $object)
         <option value="{{ $object->role }}">{{ $object->object_name }}</option>
             @endforeach
@@ -33,12 +42,12 @@
         </div>
       <div class="form-group">
         <label for="password">Mật khẩu:</label>
-        <input type="text" name="password" class="form-control" id="password">
+        <input type="password" name="password" class="form-control" id="password">
       </div>
 
       <div class="form-group">
           <label for="password_confirmation">Nhập lại mật khẩu:</label>
-          <input type="text" name="password_confirmation" class="form-control" id="password_confirmation">
+          <input type="password" name="password_confirmation" class="form-control" id="password_confirmation">
       </div>
       <div class="form-group">
           <label>Số điện thoại</label>
@@ -49,7 +58,7 @@
           <input type="text" name="address" class="form-control" id="address">
       </div>
       <div class="form-group">
-          <label for="desc">Ghi chú:</label>
+          <label for="desc">Mô tả</label>
           <textarea name="desc" class="form-control" rows="5" id="desc"></textarea>
       </div>
       <button type="submit" class="btn btn-info">Đăng kí</button>

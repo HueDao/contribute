@@ -45,14 +45,16 @@ class ContributorController extends Controller
       'password' => 'required|min:6|required_with:password_confirmation|same:password_confirmation',
       'password_confirmation' => 'required|min:6',
       'desc' => 'required',
-      'role' => 'required',
+      'number_phone' => 'required',
+      'address' => 'required',
+      'role' => 'required|not_in:0',
     ]);
     $name = $request->input('name', '');
     $email = $request->input('email', '');
     $password = $request->input('password', '');
     $desc = $request->input('desc', '');
     $address = $request->input('address', '');
-    $number_phone = $request->input('desc', '');
+    $number_phone = $request->input('number_phone', '');
     $role = $request->input('role', 0);
     $contributor = new ContributorModel();
     $contributor->name = $name;
@@ -63,7 +65,7 @@ class ContributorController extends Controller
     $contributor->number_phone = $number_phone;
     $contributor->role = $role;
     $contributor->save();
-    return redirect("/contributor/login")->with('status', 'Đăng kí người đóng góp thành công !');
+    return redirect("/")->with('infor', 'Đăng kí người đóng góp thành công !');
   }
 
   public function edit($id) {
