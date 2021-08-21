@@ -103,10 +103,9 @@ Route::get('/contributor/infor', [ContributorController::class, 'infor']);
 Route::middleware(["ship"])->group(function () {
     Route::get('/ship/index', [ShippersController::class, 'index']);
     Route::post('/ship_receive_order', [ShippersController::class, 'shipReceiveOrder']);
-    Route::get('/moving_product', [ShippersController::class, 'movingProduct']);
     Route::get('/order_detail/{id}', [ShippersController::class, 'orderDetail']);
     Route::get('/ship/order_receive', [ShippersController::class, 'orderReceive']);
-    // Route::post('/ship_receive_order_cancel', [ShippersController::class, 'shipReceiveOrderCancel']);
+    Route::get('/ship/order_delivery_receive', [ShippersController::class, 'orderDeliveryReceive']);
     Route::get('/ship/list_wait_delivery', [ShippersController::class, 'getListOrderWaitDelivery']);
 });
 

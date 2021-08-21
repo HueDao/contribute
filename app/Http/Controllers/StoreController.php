@@ -63,14 +63,21 @@ class StoreController extends Controller
             return Redirect::back()->with('note', 'Chưa chọn sản phẩm để tạo đơn!');
         }
         $total_product = count($loop);
+        
         $order = new OrdersModel();
         $order->total_product = $total_product;
         $order->is_deleted = 1;
         $order->type = $type;
+        
         $order->save();
         $order_id = $order->id;
+        if($type == 2) {
+          $product_status = 8;
+        } else {
+          $product_status = 7;
+        }
         foreach ($loop as $value){
-          $product = ProductsModel::where('id', $value)->update(['status'=>7]);
+          $product = ProductsModel::where('id', $value)->update(['status'=>$product_status]);
           $order_detail = new OrderDetailModel;
           $order_detail->product_id = $value;
           $order_detail->order_id = $order_id;
@@ -135,16 +142,11 @@ class StoreController extends Controller
       $order->total_product = $total_product;
       $order->is_deleted = 1;
       $order->type = $type;
+      $order->order_status = 2;
       $order->save();
       $order_id = $order->id;
-      if($type == 1) {
-        $status_product = 7;
-      } else {
-        $status_product = 8;
-      }
       foreach ($loop as $value){
-       
-        $product = ProductsModel::where('id', $value)->update(['status'=>$status_product]);
+        $product = ProductsModel::where('id', $value)->update(['status'=>8]);
         $order_detail = new OrderDetailModel;
         $order_detail->product_id = $value;
         $order_detail->order_id = $order_id;

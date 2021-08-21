@@ -63,7 +63,6 @@
     </table>
     <div style = "padding: 20px">
     <input type='hidden' name='order_id' value='{{ $order_id}}'/>
-    
       <button type="submit" class="btn btn-primary">Nhận đơn hàng</button>
       <a style="float: right" href="{{ url("/ship/index")}}" class="btn btn-primary">Back</a>
     </div>
